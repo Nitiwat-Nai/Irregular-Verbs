@@ -8,10 +8,10 @@
     <style>
         /* Global & Default (Level 1-10) Theme */
         :root {
-            --color-primary: #F88378; /* ส้มอมชมพู */
-            --color-secondary: #FBCEB1; /* พีช */
-            --color-correct: #AFD9AE; /* เขียวมิ้นต์ */
-            --color-wrong: #43B3AE; /* เขียวเทอร์ควอยซ์ */
+            --color-primary: #E64C3C; /* Vibrant Red/Primary - (โจทย์ V1/V2, เข้มขึ้นและสดขึ้น) */
+            --color-secondary: #FBCEB1; /* Peach (พื้นหลัง Prompt, ปุ่มตัวเลือกปกติ) */
+            --color-correct: #27AE60; /* Emerald Green - (คำตอบถูก, เข้มขึ้นและสดขึ้น) */
+            --color-wrong: #43B3AE; /* เขียวเทอร์ควอยซ์ (คำตอบผิด/ปุ่ม Auto) */
             --color-bg: #F7F9FC; /* พื้นหลังอ่อน */
             --color-card: #FFFFFF;
             --color-text-dark: #333333; /* เข้มขึ้นเพื่อให้ตัดกับสีอ่อน */
@@ -20,12 +20,12 @@
         
         /* Hard/Expert Theme (Level 11-20) - Adjusted to be darker but still in a pleasing tone */
         .container.hard-theme {
-            background-color: #F88378; /* Primary color for hard theme background */
+            background-color: #E64C3C; /* Primary color for hard theme background */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             color: var(--color-text-dark); 
         }
         .container.hard-theme header {
-            background-color: #E66F64; /* Darker primary for header */
+            background-color: #C0392B; /* Darker primary for header (Updated) */
             color: var(--color-text-light); 
         }
         .container.hard-theme header h1 { color: var(--color-text-light); }
@@ -56,7 +56,7 @@
             color: var(--color-primary); 
         } 
         .container.hard-theme #timer-bar-container { background-color: #E0E0E0; } /* Lighter gray */
-        .container.hard-theme #timer-bar { background-color: #AFD9AE; } /* Mint green timer bar */
+        .container.hard-theme #timer-bar { background-color: #27AE60; } /* Emerald green timer bar (Updated) */
         .container.hard-theme .choice-button {
             background-color: #43B3AE; /* Turquoise choice buttons */
             box-shadow: 0 5px 0 #328783;
@@ -69,13 +69,13 @@
         }
         
         .container.hard-theme #auto-toggle-btn {
-            background-color: #AFD9AE; /* Mint Green for START Auto */
-            box-shadow: 0 4px 0 #8CB48C;
+            background-color: #27AE60; /* Emerald Green for START Auto (Updated) */
+            box-shadow: 0 4px 0 #1A8644; /* Darker green shadow (Updated) */
             color: var(--color-text-dark);
         }
         .container.hard-theme #auto-toggle-btn.auto-active {
-            background-color: #F88378; /* Primary Red for STOP Auto */
-            box-shadow: 0 4px 0 #E66F64;
+            background-color: #E64C3C; /* Primary Red for STOP Auto (Updated) */
+            box-shadow: 0 4px 0 #C0392B; /* Darker primary shadow (Updated) */
             color: var(--color-text-light);
         }
         /* --- END HARD THEME --- */
@@ -157,20 +157,20 @@
             font-size: 1.4rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 0 #8CB48C; /* Darker green shadow */
+            box-shadow: 0 4px 0 #1A8644; /* Darker green shadow (Updated) */
             transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
         }
         .level-btn.level-btn-11-20 {
             background-color: var(--color-primary); /* Use primary color for hard levels */
             color: var(--color-text-light);
-            box-shadow: 0 4px 0 #E66F64; /* Darker primary shadow */
+            box-shadow: 0 4px 0 #C0392B; /* Darker primary shadow (Updated) */
         }
         .level-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #8CB48C;
+            box-shadow: 0 2px 0 #1A8644; /* Darker green shadow (Updated) */
         }
         .level-btn.level-btn-11-20:active {
-            box-shadow: 0 2px 0 #E66F64;
+            box-shadow: 0 2px 0 #C0392B; /* Darker primary shadow (Updated) */
         }
         .level-btn-title {
             font-size: 0.8rem;
@@ -200,7 +200,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 0 #8CB48C;
+            box-shadow: 0 5px 0 #1A8644; /* Darker green shadow (Updated) */
             transition: transform 0.1s, box-shadow 0.1s;
         }
         .mode-btn:nth-child(2) {
@@ -210,7 +210,7 @@
         }
         .mode-btn:active {
             transform: translateY(3px);
-            box-shadow: 0 2px 0 #8CB48C;
+            box-shadow: 0 2px 0 #1A8644; /* Darker green shadow (Updated) */
         }
         #back-to-level-btn {
             background-color: #B0BEC5 !important; 
@@ -296,7 +296,7 @@
         /* State for a correctly answered choice button (V2 or V3) */
         .choice-button.correct {
             background-color: var(--color-correct);
-            box-shadow: 0 5px 0 #8CB48C; 
+            box-shadow: 0 5px 0 #1A8644; /* Darker green shadow (Updated) */
             color: var(--color-text-dark); 
             font-size: 2.5rem; /* Larger font for correct answer */
             transform: scale(1.05); /* Slightly bigger */
@@ -343,23 +343,23 @@
         #next-btn {
             background-color: var(--color-primary);
             color: var(--color-text-light);
-            box-shadow: 0 4px 0 #E66F64; 
+            box-shadow: 0 4px 0 #C0392B; /* Darker primary shadow (Updated) */
         }
         #next-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #E66F64;
+            box-shadow: 0 2px 0 #C0392B; /* Darker primary shadow (Updated) */
         }
         
         /* Auto Toggle Button */
         #auto-toggle-btn {
             background-color: var(--color-correct); 
             color: var(--color-text-dark); 
-            box-shadow: 0 4px 0 #8CB48C; 
+            box-shadow: 0 4px 0 #1A8644; /* Darker green shadow (Updated) */
             width: 40%; 
         }
         #auto-toggle-btn.auto-active {
             background-color: var(--color-primary); /* Primary red for STOP Auto */
-            box-shadow: 0 4px 0 #E66F64; 
+            box-shadow: 0 4px 0 #C0392B; /* Darker primary shadow (Updated) */
             color: var(--color-text-light); 
         }
         #auto-toggle-btn:active {
