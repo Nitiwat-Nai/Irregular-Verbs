@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irregular Verb Challenge (กริยา 3 ช่อง) V3</title>
+    <title>Irregular Verb Challenge (กริยา 3 ช่อง) V4</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         /* Global & Default (Level 1-10) Theme */
@@ -115,6 +115,11 @@
             font-size: 1.8rem;
             margin: 0;
         }
+        header p {
+            font-size: 0.9rem;
+            margin: 0.2rem 0 0 0;
+            font-weight: 300;
+        }
 
         /* Screen Management */
         .screen {
@@ -207,6 +212,15 @@
             font-weight: bold;
             margin-bottom: 1.5rem;
         }
+        /* Step Indicator */
+        #step-indicator {
+            font-size: 1rem;
+            color: #757575; /* Gray */
+            font-weight: bold;
+            margin-top: -1rem;
+            margin-bottom: 0.5rem;
+        }
+
 
         #prompt-area {
             background-color: var(--color-bg);
@@ -222,7 +236,7 @@
             transition: all 0.5s ease;
         }
         #thai-prompt {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--color-primary);
             line-height: 1.3;
@@ -281,7 +295,7 @@
             transition: opacity 0.3s, height 0.3s, padding 0.3s, margin 0.3s;
         }
         
-        /* Footer/Control - FIX 3: Equal height and text split */
+        /* Footer/Control - FIX: Equal height and text split */
         #game-footer {
             display: flex;
             justify-content: space-between;
@@ -349,7 +363,6 @@
         #game-footer.auto-mode #next-btn {
             width: 60%;
         }
-        /* Footer/Control - END FIX 3 */
         
     </style>
 </head>
@@ -358,6 +371,7 @@
     <div class="container" id="main-container">
         <header>
             <h1>Irregular Verb Challenge (กริยา 3 ช่อง)</h1>
+            <p>V4: V1 → V2 → V3</p>
         </header>
 
         <div id="level-select-screen" class="screen active">
@@ -399,8 +413,10 @@
                     <div id="timer-bar"></div>
                 </div>
 
+                <p id="step-indicator">โจทย์ V1 | คำตอบ V2</p>
+
                 <div id="prompt-area">
-                    <span id="thai-prompt">โจทย์คำแปลภาษาไทย</span>
+                    <span id="thai-prompt">โจทย์ V1 / คำแปล / เฉลยทั้งหมด</span>
                 </div>
 
                 <div id="choices">
@@ -421,12 +437,13 @@
 
     <script>
         // --- DATA (20 Sets x 10 Questions = 200 verbs) ---
+        // **Data Filtering for V1 != V2 or V2 != V3 has been performed.**
         const allQuizData = [
             { id: 1, title: "ชุด A-C พื้นฐาน", questions: [
                 { thai: "เป็น/อยู่/คือ", v1: "be", v2: "was/were", v3: "been", decoy: "become" },
                 { thai: "เริ่ม", v1: "begin", v2: "began", v3: "begun", decoy: "come" },
                 { thai: "ซื้อ", v1: "buy", v2: "bought", v3: "bought", decoy: "catch" },
-                { thai: "มา", v1: "come", v2: "came", v3: "come", decoy: "cut" },
+                { thai: "มา", v1: "come", v2: "came", v3: "come", decoy: "do" },
                 { thai: "จับ", v1: "catch", v2: "caught", v3: "caught", decoy: "choose" },
                 { thai: "ทำ", v1: "do", v2: "did", v3: "done", decoy: "drink" },
                 { thai: "ขับ", v1: "drive", v2: "drove", v3: "driven", decoy: "eat" },
@@ -437,7 +454,6 @@
             { id: 2, title: "ชุด F-H", questions: [
                 { thai: "ให้", v1: "give", v2: "gave", v3: "given", decoy: "go" },
                 { thai: "ไป", v1: "go", v2: "went", v3: "gone", decoy: "have" },
-                { thai: "มี", v1: "have", v2: "had", v3: "had", decoy: "hear" },
                 { thai: "ได้ยิน", v1: "hear", v2: "heard", v3: "heard", decoy: "hold" },
                 { thai: "เก็บ/รักษา", v1: "keep", v2: "kept", v3: "kept", decoy: "know" },
                 { thai: "รู้", v1: "know", v2: "knew", v3: "known", decoy: "leave" },
@@ -445,6 +461,7 @@
                 { thai: "ทำ/สร้าง", v1: "make", v2: "made", v3: "made", decoy: "meet" },
                 { thai: "พบ", v1: "meet", v2: "met", v3: "met", decoy: "pay" },
                 { thai: "จ่าย", v1: "pay", v2: "paid", v3: "paid", decoy: "put" },
+                { thai: "วิ่ง", v1: "run", v2: "ran", v3: "run", decoy: "say" },
             ]},
             { id: 3, title: "ชุด R-W พื้นฐาน", questions: [
                 { thai: "อ่าน", v1: "read", v2: "read", v3: "read", decoy: "run" },
@@ -461,7 +478,7 @@
             { id: 4, title: "คำกริยาที่เปลี่ยนทั้งหมด", questions: [
                 { thai: "หัก/ทำลาย", v1: "break", v2: "broke", v3: "broken", decoy: "bring" },
                 { thai: "นำมา", v1: "bring", v2: "brought", v3: "brought", decoy: "build" },
-                { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "cost" },
+                { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "choose" },
                 { thai: "เลือก", v1: "choose", v2: "chose", v3: "chosen", decoy: "draw" },
                 { thai: "วาด", v1: "draw", v2: "drew", v3: "drawn", decoy: "find" },
                 { thai: "ลืม", v1: "forget", v2: "forgot", v3: "forgotten", decoy: "get" },
@@ -470,18 +487,7 @@
                 { thai: "ขี่", v1: "ride", v2: "rode", v3: "ridden", decoy: "ring" },
                 { thai: "เห็น/แสดง", v1: "show", v2: "showed", v3: "shown/showed", decoy: "sing" },
             ]},
-            { id: 5, title: "คำกริยาที่คงที่", questions: [
-                { thai: "ตัด", v1: "cut", v2: "cut", v3: "cut", decoy: "cost" },
-                { thai: "ให้ราคา", v1: "cost", v2: "cost", v3: "cost", decoy: "hit" },
-                { thai: "ชน/ตี", v1: "hit", v2: "hit", v3: "hit", decoy: "hurt" },
-                { thai: "ทำให้เจ็บ", v1: "hurt", v2: "hurt", v3: "hurt", decoy: "let" },
-                { thai: "ให้เช่า/อนุญาต", v1: "let", v2: "let", v3: "let", decoy: "put" },
-                { thai: "ใส่/วาง", v1: "put", v2: "put", v3: "put", decoy: "shut" },
-                { thai: "ปิด", v1: "shut", v2: "shut", v3: "shut", decoy: "spread" },
-                { thai: "กระจาย", v1: "spread", v2: "spread", v3: "spread", decoy: "quit" },
-                { thai: "เลิก", v1: "quit", v2: "quit", v3: "quit", decoy: "set" },
-                { thai: "ตั้ง/จัด", v1: "set", v2: "set", v3: "set", decoy: "cost" },
-            ]},
+            // Set 5 (V1=V2=V3: cut, cost, hit, hurt, let, put, shut, spread, quit, set) **REMOVED**
             { id: 6, title: "ชุด V2/V3 เหมือนกัน 1", questions: [
                 { thai: "ฝัน", v1: "dream", v2: "dreamed/dreamt", v3: "dreamed/dreamt", decoy: "feel" },
                 { thai: "รู้สึก", v1: "feel", v2: "felt", v3: "felt", decoy: "fight" },
@@ -500,11 +506,11 @@
                 { thai: "ชนะ", v1: "win", v2: "won", v3: "won", decoy: "write" },
                 { thai: "เข้าใจ", v1: "understand", v2: "understood", v3: "understood", decoy: "wear" },
                 { thai: "สวมใส่", v1: "wear", v2: "wore", v3: "worn", decoy: "lend" },
-                { thai: "ให้ยืม", v1: "lend", v2: "lent", v3: "lent", decoy: "lose" },
                 { thai: "แพ้/หาย", v1: "lose", v2: "lost", v3: "lost", decoy: "light" },
                 { thai: "จุดไฟ/ส่อง", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "sit" },
                 { thai: "ขุด", v1: "dig", v2: "dug", v3: "dug", decoy: "stand" },
                 { thai: "ติด/ยึด", v1: "stick", v2: "stuck", v3: "stuck", decoy: "strike" },
+                { thai: "คืบคลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
             ]},
             { id: 8, title: "คำกริยาที่คล้ายกัน", questions: [
                 { thai: "กลายเป็น", v1: "become", v2: "became", v3: "become", decoy: "begin" },
@@ -527,8 +533,8 @@
                 { thai: "เอาชนะ", v1: "overcome", v2: "overcame", v3: "overcome", decoy: "overdo" },
                 { thai: "เหวี่ยง/แกว่ง", v1: "swing", v2: "swung", v3: "swung", decoy: "swim" },
                 { thai: "สาบาน", v1: "swear", v2: "swore", v3: "sworn", decoy: "wear" },
-                { thai: "ทำให้เปียก", v1: "wet", v2: "wet/wetted", v3: "wet/wetted", decoy: "wring" },
                 { thai: "บีบ/คั้น", v1: "wring", v2: "wrung", v3: "wrung", decoy: "wind" },
+                { thai: "หนี", v1: "flee", v2: "fled", v3: "fled", decoy: "fly" },
             ]},
             { id: 10, title: "กริยายาก 2", questions: [
                 { thai: "กัด", v1: "bite", v2: "bit", v3: "bitten", decoy: "bear" },
@@ -537,10 +543,10 @@
                 { thai: "วาง", v1: "lay", v2: "laid", v3: "laid", decoy: "lie" },
                 { thai: "ขอร้อง", v1: "plead", v2: "pleaded/pled", v3: "pleaded/pled", decoy: "pay" },
                 { thai: "พิสูจน์", v1: "prove", v2: "proved", v3: "proven/proved", decoy: "pay" },
-                { thai: "ปอกเปลือก", v1: "shed", v2: "shed", v3: "shed", decoy: "shoot" },
                 { thai: "เย็บ", v1: "sew", v2: "sewed", v3: "sewn/sewed", decoy: "show" },
                 { thai: "ลื่น", v1: "slide", v2: "slid", v3: "slid", decoy: "stick" },
                 { thai: "ทำลาย", v1: "undo", v2: "undid", v3: "undone", decoy: "understand" },
+                { thai: "เอาชนะ", v1: "overcome", v2: "overcame", v3: "overcome", decoy: "run" },
             ]},
              { id: 11, title: "คำที่มี -ew/-own", questions: [
                 { thai: "โยน", v1: "throw", v2: "threw", v3: "thrown", decoy: "grow" },
@@ -552,7 +558,7 @@
                 { thai: "แสดง", v1: "show", v2: "showed", v3: "shown/showed", decoy: "sow" },
                 { thai: "หว่าน", v1: "sow", v2: "sowed", v3: "sown/sowed", decoy: "saw" },
                 { thai: "เลื่อย", v1: "saw", v2: "sawed", v3: "sawn/sawed", decoy: "sell" },
-                { thai: "บีบ/คั้น", v1: "wring", v2: "wrung", v3: "wrung", decoy: "ring" },
+                { thai: "สวมใส่", v1: "wear", v2: "wore", v3: "worn", decoy: "ring" },
             ]},
             { id: 12, title: "V2 = V3: -ght/-d/-t", questions: [
                 { thai: "นำมา", v1: "bring", v2: "brought", v3: "brought", decoy: "buy" },
@@ -586,9 +592,9 @@
                 { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "ride" },
                 { thai: "ห้าม", v1: "forbid", v2: "forbade", v3: "forbidden", decoy: "forget" },
                 { thai: "กัด", v1: "bite", v2: "bit", v3: "bitten", decoy: "hide" },
-                { thai: "คลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
-                { thai: "กระโดด", v1: "leap", v2: "leaped/leapt", v3: "leaped/leapt", decoy: "sleep" },
                 { thai: "ส่องแสง", v1: "shine", v2: "shone", v3: "shone", decoy: "show" },
+                { thai: "ตื่น", v1: "wake", v2: "woke", v3: "woken", decoy: "write" },
+                { thai: "ชนะ", v1: "win", v2: "won", v3: "won", decoy: "run" },
             ]},
             { id: 15, title: "คำกริยาที่ -ing", questions: [
                 { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "begin" },
@@ -607,12 +613,12 @@
                 { thai: "แสดง", v1: "show", v2: "showed", v3: "shown/showed", decoy: "sow" },
                 { thai: "เลื่อย", v1: "saw", v2: "sawed", v3: "sawn/sawed", decoy: "see" },
                 { thai: "ถ่มน้ำลาย", v1: "spit", v2: "spat/spit", v3: "spat/spit", decoy: "sit" },
-                { thai: "ผ่า/แยก", v1: "split", v2: "split", v3: "split", decoy: "spread" },
                 { thai: "ผูกมัด", v1: "bind", v2: "bound", v3: "bound", decoy: "find" },
                 { thai: "คืบคลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
                 { thai: "คลุกคลี", v1: "deal", v2: "dealt", v3: "dealt", decoy: "dig" },
                 { thai: "หนี", v1: "flee", v2: "fled", v3: "fled", decoy: "fly" },
                 { thai: "ได้รับ", v1: "get", v2: "got", v3: "got/gotten", decoy: "give" },
+                { thai: "ตี", v1: "strike", v2: "struck", v3: "struck/stricken", decoy: "stick" },
             ]},
             { id: 17, title: "กริยายาก 4 (ซ้ำ V2/V3)", questions: [
                 { thai: "แขวน (คอ)", v1: "hang", v2: "hanged", v3: "hanged", decoy: "hung" },
@@ -624,7 +630,7 @@
                 { thai: "ส่องแสง", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "lose" },
                 { thai: "หมายถึง", v1: "mean", v2: "meant", v3: "meant", decoy: "meet" },
                 { thai: "ขอร้อง", v1: "plead", v2: "pleaded/pled", v3: "pleaded/pled", decoy: "pay" },
-                { thai: "จ่าย", v1: "pay", v2: "paid", v3: "paid", decoy: "put" },
+                { thai: "เขียน", v1: "write", v2: "wrote", v3: "written", decoy: "win" },
             ]},
             { id: 18, title: "คำกริยาที่ออกเสียงคล้าย", questions: [
                 { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "hear" },
@@ -635,12 +641,11 @@
                 { thai: "ตก/ล้ม", v1: "fall", v2: "fell", v3: "fallen", decoy: "feel" },
                 { thai: "หนี", v1: "flee", v2: "fled", v3: "fled", decoy: "fly" },
                 { thai: "ได้", v1: "get", v2: "got", v3: "got/gotten", decoy: "give" },
-                { thai: "ตี", v1: "strike", v2: "struck", v3: "struck/stricken", decoy: "stick" },
+                { thai: "เอา/พาไป", v1: "take", v2: "took", v3: "taken", decoy: "shake" },
                 { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "swing" },
             ]},
             { id: 19, title: "คำกริยาที่ลงท้ายด้วย -d", questions: [
                 { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "buy" },
-                { thai: "มี/เป็น", v1: "have", v2: "had", v3: "had", decoy: "hear" },
                 { thai: "นำ", v1: "lead", v2: "led", v3: "led", decoy: "read" },
                 { thai: "ให้ยืม", v1: "lend", v2: "lent", v3: "lent", decoy: "send" },
                 { thai: "ทำให้", v1: "make", v2: "made", v3: "made", decoy: "meet" },
@@ -649,26 +654,28 @@
                 { thai: "ขาย", v1: "sell", v2: "sold", v3: "sold", decoy: "tell" },
                 { thai: "บอก", v1: "tell", v2: "told", v3: "told", decoy: "think" },
                 { thai: "ขุด", v1: "dig", v2: "dug", v3: "dug", decoy: "drink" },
+                { thai: "ฝัน", v1: "dream", v2: "dreamed/dreamt", v3: "dreamed/dreamt", decoy: "feel" },
             ]},
             { id: 20, title: "คำกริยาที่ออกเสียงแปลก", questions: [
                 { thai: "อ่าน", v1: "read", v2: "read", v3: "read", decoy: "ride" },
                 { thai: "ก้ม/โค้ง", v1: "bend", v2: "bent", v3: "bent", decoy: "bind" },
                 { thai: "ผูก", v1: "bind", v2: "bound", v3: "bound", decoy: "bend" },
-                { thai: "คลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
-                { thai: "ฝัน", v1: "dream", v2: "dreamed/dreamt", v3: "dreamed/dreamt", decoy: "drink" },
-                { thai: "หนี", v1: "flee", v2: "fled", v3: "fled", decoy: "feel" },
                 { thai: "ได้ยิน", v1: "hear", v2: "heard", v3: "heard", decoy: "hold" },
                 { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "hit" },
                 { thai: "จุดไฟ", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "lose" },
-                { thai: "ชนะ", v1: "win", v2: "won", v3: "won", decoy: "write" },
+                { thai: "โยน", v1: "throw", v2: "threw", v3: "thrown", decoy: "fly" },
+                { thai: "ขโมย", v1: "steal", v2: "stole", v3: "stolen", decoy: "speak" },
+                { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "sink" },
+                { thai: "เกิด", v1: "bear", v2: "bore", v3: "born/borne", decoy: "bite" },
             ]},
-        ];
+        ].filter(set => set.questions.length > 0); // Filter out sets that might become empty
+
 
         // --- CONSTANTS ---
         const NORMAL_TIMER_MS = 5000;
         const AUTO_PLAY_TIMER_MS = 3000; 
-        const POST_THAI_SPEECH_DELAY_MS = 500; // FIX 2: 0.5s pause after Thai speech
-        const SLASH_SPEECH_DELAY_MS = 250; // FIX 1: 0.25s pause between slash words
+        const POST_THAI_SPEECH_DELAY_MS = 500; // FIX: 0.5s pause after Thai speech
+        const SLASH_SPEECH_DELAY_MS = 250; // FIX: 0.25s pause between slash words
 
         // --- ELEMENTS ---
         const mainContainer = document.getElementById('main-container');
@@ -688,6 +695,7 @@
         const nextBtn = document.getElementById('next-btn');
         const autoToggleBtn = document.getElementById('auto-toggle-btn');
         const gameFooterEl = document.getElementById('game-footer');
+        const stepIndicatorEl = document.getElementById('step-indicator');
         const choiceButtons = [choiceA, choiceB];
         const startNormalBtn = document.getElementById('start-normal-btn');
         const startAutoBtn = document.getElementById('start-auto-btn');
@@ -700,11 +708,13 @@
         let score = 0;
         let timerTimeout = null;
         let autoPlayTimeout = null;
-        let isAnswered = false;
+        let isAnswered = false; // Is the current step answered?
         let isAutoPlay = false; 
         let isSpeaking = false;
         let voices = [];
         let audioContext;
+        let currentQuestion = null; // The full question object
+        let currentAnswerStep = 'V2'; // State: 'V2' or 'V3' or 'REVEAL'
 
         // --- CORE FUNCTIONS (AUDIO TONE) ---
         function initAudioContext() {
@@ -768,14 +778,10 @@
         /**
          * Speak a single block of text (used for Thai or single English words)
          */
-        function speakText(text, lang, onEndCallback = null, isPart = false) {
+        function speakText(text, lang, onEndCallback = null) {
             if (!'speechSynthesis' in window) {
                 if(onEndCallback) onEndCallback();
                 return;
-            }
-            // Only cancel previous speech if this is NOT part of a slash sequence
-            if (!isPart) { 
-                 window.speechSynthesis.cancel();
             }
             
             isSpeaking = true;
@@ -801,7 +807,7 @@
         }
 
         /**
-         * FIX 1: Speak English words with a slash (/) with a delay between them.
+         * FIX 3: Speak English words with a slash (/) with a delay between them.
          */
         function speakWithSlash(text, lang, partDelay, onEnd = null) {
             if(text.indexOf('/') === -1) {
@@ -851,18 +857,19 @@
             speakNextPart();
         }
 
+
         /**
-         * FIX 2: Handle the sequential speech (V3 -> V2 -> V1 -> Thai -> Pause) for Auto mode.
+         * FIX 2: Handle the sequential speech (V1 -> V2 -> V3 -> Thai -> Pause) for final reveal.
          */
-        function handleRevealSpeech(v1, v2, v3, thaiMeaning, finalAction) {
+        function handleFinalRevealSpeech(v1, v2, v3, thaiMeaning, finalAction) {
             window.speechSynthesis.cancel();
 
-            // 1. Speak V3 (with slash pause if needed)
-            speakWithSlash(v3, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
+            // 1. Speak V1 (with slash pause if needed)
+            speakWithSlash(v1, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
                 // 2. Speak V2 (with slash pause if needed)
                 speakWithSlash(v2, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
-                     // 3. Speak V1 (with slash pause if needed)
-                    speakWithSlash(v1, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
+                     // 3. Speak V3 (with slash pause if needed)
+                    speakWithSlash(v3, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
                         // 4. Speak Thai meaning
                         speakText(thaiMeaning, 'th-TH', () => {
                             // 5. 0.5 second pause before final action (advancing the game)
@@ -873,6 +880,30 @@
                     });
                 });
             });
+        }
+
+
+        // --- UTILITIES ---
+        /**
+         * Get a V3 form from a random verb for use as a decoy in the V3 step
+         */
+        function getV3Decoy(correctV3, questions) {
+            let decoyV3 = correctV3;
+            // Try up to 5 times to find a V3 that is not the correct V3
+            for (let i = 0; i < 5; i++) {
+                const randomQ = questions[Math.floor(Math.random() * questions.length)];
+                const potentialDecoy = randomQ.v3;
+                
+                // Compare normalized forms
+                const correctNorm = correctV3.split('/')[0].trim().toLowerCase();
+                const potentialNorm = potentialDecoy.split('/')[0].trim().toLowerCase();
+                
+                if (potentialNorm !== correctNorm) {
+                    return potentialDecoy;
+                }
+            }
+            // Fallback: use the current question's V2 as a decoy
+            return questions[currentQuizIndex].v2; 
         }
 
         // --- UI & SCREEN MANAGEMENT ---
@@ -943,21 +974,17 @@
             if (isAutoPlay) {
                 // Auto Play Mode: Show Stop button on the left
                 gameFooterEl.classList.add('auto-mode');
-                autoToggleBtn.style.display = 'flex'; // Changed from 'block' to 'flex' due to new layout
+                autoToggleBtn.style.display = 'flex'; 
                 autoToggleBtn.classList.add('auto-active');
-                // Change text 
-                autoToggleBtn.innerHTML = '⏸️ หยุดเล่น<span>(Auto)</span>'; // Used innerHTML for span
-                // Change next button text
+                autoToggleBtn.innerHTML = '⏸️ หยุดเล่น<span>(Auto)</span>'; 
                 nextBtn.textContent = '⏭️ ข้าม/จบเกม';
             } else {
                 // Normal Mode: Show Start Auto button on the left
                 gameFooterEl.classList.remove('auto-mode');
-                autoToggleBtn.style.display = 'flex'; // Changed from 'block' to 'flex' due to new layout
+                autoToggleBtn.style.display = 'flex'; 
                 autoToggleBtn.classList.remove('auto-active');
-                // Change text 
-                autoToggleBtn.innerHTML = '▶️ เริ่มเล่น<span>(Auto)</span>'; // Used innerHTML for span
+                autoToggleBtn.innerHTML = '▶️ เริ่มเล่น<span>(Auto)</span>'; 
                 
-                // Keep the next button text standard for normal mode
                 nextBtn.textContent = (currentQuizIndex >= currentLevelData.questions.length && isAnswered) ? 'กลับหน้าหลัก (เลือกชุดคำศัพท์)' : 'ข้อถัดไป ⏭️';
             }
         }
@@ -969,6 +996,7 @@
             isAutoPlay = autoMode;
             currentQuizIndex = 0;
             score = 0;
+            currentAnswerStep = 'V2'; // Always start with V2
             
             // Apply theme change
             if (levelId >= 11) {
@@ -1011,7 +1039,7 @@
                  
                  setTimeout(() => {
                     if (!isAnswered) {
-                         setupQuestion(currentLevelData.questions[currentQuizIndex]); 
+                         setupQuestion(currentQuestion); 
                     }
                  }, 500); 
             }
@@ -1029,12 +1057,14 @@
                 return;
             }
             
+            currentQuestion = currentLevelData.questions[currentQuizIndex];
+            currentAnswerStep = 'V2'; // Reset to V2 step for the new question
             isAnswered = false;
             nextBtn.disabled = true;
             updateAutoPlayControls(); 
 
             // Reset UI
-            thaiPromptEl.style.fontSize = '2rem';
+            thaiPromptEl.style.fontSize = '2.5rem';
             thaiPromptEl.style.color = currentLevelData.id >= 11 ? '#F1C40F' : 'var(--color-primary)';
             thaiPromptEl.classList.remove('revealed-text');
             
@@ -1049,29 +1079,65 @@
             });
             
             updateStatusBar();
-            setupQuestion(currentLevelData.questions[currentQuizIndex]);
+            setupQuestion(currentQuestion);
         }
 
         function setupQuestion(q) {
-            // Re-enable buttons if not in auto-play mode
-            choiceButtons.forEach(btn => btn.disabled = isAutoPlay);
             
-            thaiPromptEl.textContent = q.thai;
+            // 1. Set V1 prompt
+            const promptText = q.v1; 
+            thaiPromptEl.textContent = promptText;
             
-            // Speak the V1 prompt immediately (English)
-            speakWithSlash(q.v1, 'en-US', SLASH_SPEECH_DELAY_MS); 
+            // 2. Set Choices (V2 or V3)
+            let correctAnswer;
+            let decoyAnswer;
+            let targetForm;
+            let currentPrompt;
 
-            const choices = [q.v2, q.decoy];
+            if (currentAnswerStep === 'V2') {
+                targetForm = 'V2';
+                currentPrompt = q.v1;
+                correctAnswer = q.v2;
+                // For V2, we use the V3 of the current verb as a decoy if it is different, otherwise use the provided decoy
+                decoyAnswer = q.v3.split('/')[0].trim().toLowerCase() !== q.v2.split('/')[0].trim().toLowerCase() ? q.v3 : q.decoy; 
+                stepIndicatorEl.textContent = `โจทย์ V1: ${currentPrompt} | คำตอบ ${targetForm}`;
+            } else if (currentAnswerStep === 'V3') {
+                targetForm = 'V3';
+                currentPrompt = q.v2;
+                correctAnswer = q.v3;
+                // For V3, we use a random V3 decoy
+                decoyAnswer = getV3Decoy(correctAnswer, currentLevelData.questions); 
+                stepIndicatorEl.textContent = `โจทย์ V2: ${currentPrompt} | คำตอบ ${targetForm}`;
+                thaiPromptEl.textContent = currentPrompt; // Set prompt to V2
+            }
+
+            // Speak the V1/V2 prompt immediately (English) - Only for V2 step as V3 is a continuation
+            if (currentAnswerStep === 'V2') {
+                window.speechSynthesis.cancel();
+                speakWithSlash(promptText, 'en-US', SLASH_SPEECH_DELAY_MS); 
+            }
+
+            // Prepare choices
+            const choices = [correctAnswer, decoyAnswer];
             choices.sort(() => 0.5 - Math.random());
 
             choiceA.textContent = choices[0];
-            choiceA.setAttribute('data-correct', choices[0] === q.v2);
-            choiceB.textContent = choices[1];
-            choiceB.setAttribute('data-correct', choices[1] === q.v2);
+            choiceA.setAttribute('data-correct', choices[0] === correctAnswer);
+            choiceA.title = targetForm;
             
-            // Update button labels to clarify which verb form is expected
-            choiceA.title = 'V2 (Past Simple)';
-            choiceB.title = 'V2 (Past Simple)';
+            choiceB.textContent = choices[1];
+            choiceB.setAttribute('data-correct', choices[1] === correctAnswer);
+            choiceB.title = targetForm;
+            
+            // Re-enable buttons if not in auto-play mode
+            choiceButtons.forEach(btn => {
+                btn.disabled = isAutoPlay;
+                btn.classList.remove('hidden-on-reveal'); // Ensure buttons are visible
+                btn.style.display = 'block';
+                btn.style.height = 'auto';
+                btn.style.padding = '1.5rem';
+                btn.style.margin = '0';
+            });
 
             startTimer();
         }
@@ -1094,10 +1160,11 @@
             // Set timeout action
             timerTimeout = setTimeout(() => {
                 if (!isAnswered) {
-                    const currentQ = currentLevelData.questions[currentQuizIndex];
                     if (isAutoPlay) {
+                        // In AutoPlay, a timeout is treated as a correct answer to advance the step
                         checkAnswer(null, true); 
                     } else {
+                        // In Normal mode, a timeout is an incorrect answer
                         checkAnswer(null, false); 
                     }
                 }
@@ -1105,88 +1172,123 @@
         }
 
         function checkAnswer(selectedBtn, isAuto) {
-            if (isAnswered) return;
-            isAnswered = true;
+            if (isAnswered && !isAuto) return;
+            
             clearTimeout(timerTimeout);
             
             timerBarEl.style.transition = 'none';
             timerBarEl.style.width = '0%'; 
 
-            const currentQ = currentLevelData.questions[currentQuizIndex];
-            const correctV1 = currentQ.v1;
-            const correctV2 = currentQ.v2;
-            const correctV3 = currentQ.v3;
-            const correctThai = currentQ.thai;
-            
-            // Determine if the answer is correct
             const isCorrect = isAuto ? true : (selectedBtn && selectedBtn.getAttribute('data-correct') === 'true'); 
+            const currentQ = currentQuestion;
 
-            // 1. Stop reading and play tone
+            // 1. Logic for V2 Step
+            if (currentAnswerStep === 'V2') {
+                if (isCorrect) {
+                    playPing();
+                    isAnswered = false; // The V2 step is finished, but not the whole question
+                    
+                    // Highlight the correct V2 button
+                    choiceButtons.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.textContent.includes(currentQ.v2.split('/')[0].trim())) { // Check for the correct word
+                             btn.classList.add('correct');
+                        } else {
+                            // Hide the incorrect V2 option
+                             btn.classList.add('hidden-on-reveal');
+                        }
+                    });
+                    
+                    // Transition to V3 Step
+                    currentAnswerStep = 'V3';
+                    if (isAutoPlay) {
+                         // Wait a moment then automatically start V3 step
+                         autoPlayTimeout = setTimeout(() => {
+                             setupQuestion(currentQ);
+                         }, 1000); // 1 second delay
+                    } else {
+                         // Immediately start V3 step
+                         thaiPromptEl.textContent = `✅ ถูก V2! ตอนนี้เลือก V3 ของ: ${currentQ.v2}`;
+                         thaiPromptEl.style.fontSize = '1.5rem';
+                         thaiPromptEl.style.color = 'var(--color-correct)';
+                         setTimeout(() => {
+                            setupQuestion(currentQ);
+                         }, 500); 
+                    }
+                    return; // Exit as the question is not fully answered
+                } 
+                // If incorrect (V2) or Auto-Play is true (meaning V2 is correct by default), proceed to final revelation
+                // NOTE: If isAuto is true here, it means the timer ran out on V2, but in Autoplay we treat it as correct.
+            }
+            
+            // 2. Logic for V3 Step or V2 Incorrect (Final Answer)
+            
+            // Only update score if V3 is correct OR V2 was incorrect
+            if (currentAnswerStep === 'V3' && isCorrect) {
+                 score++;
+            } else if (currentAnswerStep === 'V2' && !isCorrect) {
+                 // V2 incorrect: No score update, but proceed to reveal
+            } else if (currentAnswerStep === 'V3' && !isCorrect) {
+                // V3 incorrect: No score update
+            }
+            
+            // Mark the question as fully answered
+            isAnswered = true; 
+            currentAnswerStep = 'REVEAL';
+
+            // Play tone
             window.speechSynthesis.cancel();
-            if (isCorrect) {
+            if (isCorrect || (isAuto && currentAnswerStep === 'V2')) {
                 playPing();
-                score++;
             } else {
                 playFailTone();
             }
             
-            // 2. Disable all choices
+            // Disable all choices
             choiceButtons.forEach(btn => btn.disabled = true);
             
-            // 4. Set Next Button action
+            // Set Next Button action
             nextBtn.disabled = false;
             
-            // 5. Auto-Play continuation: **NEW LOGIC**
-            if (isAutoPlay) {
-                // Define the function to advance the game, to be called when speech ends
-                const speechEndAction = () => {
-                    // Add a small delay (0.5s) after speech finishes
-                    autoPlayTimeout = setTimeout(() => {
-                        currentQuizIndex++;
-                        nextQuestion();
-                    }, POST_THAI_SPEECH_DELAY_MS); 
-                };
-
-                // 3. Reveal and animate, passing the callback for sequential speech
-                revealAnswer(correctV1, correctV2, correctV3, correctThai, selectedBtn, isCorrect, isAuto, speechEndAction);
-
-            } else {
-                // Normal mode: No speech callback needed for continuation
-                revealAnswer(correctV1, correctV2, correctV3, correctThai, selectedBtn, isCorrect, isAuto, null);
-            }
+            // Define the final action (advance game)
+            const speechEndAction = () => {
+                // Advance the game, this is the end of the entire question
+                currentQuizIndex++;
+                nextQuestion();
+            };
+            
+            // 3. Reveal and speak
+            revealAnswer(currentQ, selectedBtn, isCorrect, isAuto, speechEndAction);
         }
 
-        // Modified to display all three forms and accept a speech callback
-        function revealAnswer(v1, v2, v3, thaiMeaning, selectedBtn, isCorrect, isAuto, onSpeechEnd = null) {
-            const fullRevealText = `V1: ${v1} | V2: ${v2} | V3: ${v3} (${thaiMeaning})`;
+        // Modified to display all three forms and handle sequential speech
+        function revealAnswer(q, selectedBtn, isCorrect, isAuto, onSpeechEnd = null) {
+            const statusPrefix = isCorrect ? '✅ ถูกต้อง: ' : (selectedBtn ? '❌ ผิด: ' : '⏰ หมดเวลา: ');
+            const fullRevealText = `${q.thai}`;
             
-            // Sequential speech: V3 -> V2 -> V1 -> Thai
-            handleRevealSpeech(v1, v2, v3, thaiMeaning, onSpeechEnd);
+            // Display full verb forms and Thai meaning
+            thaiPromptEl.textContent = statusPrefix + fullRevealText;
+            thaiPromptEl.style.fontSize = '1.5rem';
+            thaiPromptEl.style.color = isCorrect ? 'var(--color-correct)' : 'var(--color-wrong)';
             
+            stepIndicatorEl.textContent = `V1: ${q.v1} | V2: ${q.v2} | V3: ${q.v3}`;
+
+            // Highlight buttons
             choiceButtons.forEach(btn => {
-                btn.classList.remove('wrong', 'correct');
+                btn.classList.remove('wrong', 'correct', 'hidden-on-reveal');
                 
-                // Check against V2
-                if (btn.textContent.includes(v2)) {
+                // Show V2 and V3 in the prompt area on the buttons for clarity during reveal
+                if (btn.textContent.includes(q.v2.split('/')[0].trim()) || btn.textContent.includes(q.v3.split('/')[0].trim())) {
                     btn.classList.add('correct');
+                    btn.style.display = 'block';
                 } else {
                     btn.classList.add('hidden-on-reveal');
                 }
             });
             
-            let statusPrefix = '';
-            if (isCorrect) { 
-                 statusPrefix = '✅ ถูกต้อง: ';
-                 thaiPromptEl.style.color = 'var(--color-correct)';
-            } else {
-                 statusPrefix = selectedBtn ? '❌ ผิด: ' : '⏰ หมดเวลา: ';
-                 thaiPromptEl.style.color = 'var(--color-wrong)';
-            }
-
-            thaiPromptEl.textContent = statusPrefix + fullRevealText;
-            thaiPromptEl.classList.add('revealed-text');
-            thaiPromptEl.style.fontSize = ''; 
-
+            // Sequential speech: V1 -> V2 -> V3 -> Thai (with slash handling)
+            handleFinalRevealSpeech(q.v1, q.v2, q.v3, q.thai, onSpeechEnd);
+            
             updateStatusBar();
         }
 
@@ -1201,9 +1303,9 @@
             
             thaiPromptEl.textContent = `คุณทำได้ ${score}/${currentLevelData.questions.length} ข้อ`;
             thaiPromptEl.style.fontSize = '2.5rem';
-            thaiPromptEl.style.color = score >= 8 ? 'var(--color-correct)' : 'var(--color-wrong)';
-            thaiPromptEl.classList.remove('revealed-text');
+            thaiPromptEl.style.color = score >= (currentLevelData.questions.length * 0.8) ? 'var(--color-correct)' : 'var(--color-wrong)';
             thaiPromptEl.classList.add('revealed-text'); 
+            stepIndicatorEl.textContent = 'ผลสรุป';
 
             choiceButtons.forEach(btn => btn.style.display = 'none');
             
@@ -1218,7 +1320,7 @@
             if (audioContext && audioContext.state === 'suspended') {
                  audioContext.resume();
             }
-            if (!isAnswered && !isAutoPlay) { 
+            if (!isAnswered) { 
                 checkAnswer(e.target, false);
             }
         }
@@ -1251,6 +1353,7 @@
             } else {
                 // Normal mode advance / Auto mode skip
                 currentQuizIndex++;
+                currentAnswerStep = 'V2';
                 nextQuestion();
             }
         });
