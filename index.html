@@ -3,45 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เกมฝึกกริยา 3 ช่อง (Irregular Verbs) V2</title>
+    <title>Irregular Verb Challenge (กริยา 3 ช่อง) V3</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Global & Default (V1 Theme) */
+        /* Global & Default (Level 1-10) Theme */
         :root {
-            --color-primary-v1: #7B1FA2; /* Deep Purple */
-            --color-secondary-v1: #8E24AA; /* Medium Purple */
-            --color-correct: #4CAF50; /* Green */
-            --color-wrong: #F44336; /* Red */
-            --color-bg: #F3E5F5; /* Light Lavender Background */
+            --color-primary: #FF7043; /* Bright Orange */
+            --color-secondary: #42A5F5; /* Blue */
+            --color-correct: #66BB6A; /* Green */
+            --color-wrong: #EF5350; /* Red */
+            --color-bg: #F4F7F9;
             --color-card: #FFFFFF;
-            --color-text-dark: #212121;
+            --color-text-dark: #263238;
             --color-text-light: #FFFFFF;
-            --color-gold: #FFC107;
         }
         
-        /* Hard/Expert Theme (Dark Purple for Auto Mode) */
+        /* Hard/Expert Theme (Level 11-20) */
         .container.hard-theme {
-            background-color: #311B92; /* Deep Blue-Purple */
+            background-color: #2C3E50; 
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            color: #E8EAF6; 
+            color: #ECF0F1; 
         }
         .container.hard-theme header {
-            background-color: #512DA8; 
-            color: var(--color-gold); 
+            background-color: #34495E; 
+            color: #F1C40F; 
         }
-        .container.hard-theme header h1 { color: var(--color-gold); }
-        .container.hard-theme #prompt-area {
-            border-color: #8E24AA;
-            background-color: #21196E;
+        .container.hard-theme header h1 { color: #F1C40F; }
+
+        /* Hard Theme Mode Selection Buttons */
+        .container.hard-theme .mode-btn {
+            background-color: #7F8C8D; /* Dark Gray for modes */
+            box-shadow: 0 5px 0 #6A7A7B;
         }
-        .container.hard-theme #v1-prompt {
-            color: var(--color-gold);
+        .container.hard-theme .mode-btn:nth-child(2) {
+            background-color: #F39C12; /* Gold for auto mode */
+            box-shadow: 0 5px 0 #D4AC0D;
         }
-        .container.hard-theme #thai-prompt {
-             color: #CFD8DC;
+        .container.hard-theme .mode-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0;
         }
 
-        /* General Styles */
+
+        /* Hard Theme Game Screen Styles */
+        .container.hard-theme #prompt-area {
+            background-color: #34495E;
+            border: 3px solid #F1C40F; 
+        }
+        .container.hard-theme #thai-prompt { color: #F1C40F; }
+        .container.hard-theme #timer-bar-container { background-color: #34495E; }
+        .container.hard-theme #timer-bar { background-color: #F39C12; }
+        .container.hard-theme .choice-button {
+            background-color: #7F8C8D; 
+            box-shadow: 0 5px 0 #6A7A7B;
+        }
+        .container.hard-theme #next-btn {
+            background-color: #F1C40F; 
+            box-shadow: 0 4px 0 #D4AC0D;
+            color: var(--color-text-dark);
+        }
+        
+        .container.hard-theme #auto-toggle-btn {
+            background-color: #27AE60; /* Green for START Auto */
+            box-shadow: 0 4px 0 #20934F;
+            color: var(--color-text-light);
+        }
+        .container.hard-theme #auto-toggle-btn.auto-active {
+            background-color: #E74C3C; /* Red for STOP Auto */
+            box-shadow: 0 4px 0 #C0392B;
+        }
+        /* --- END HARD THEME --- */
+
+
         body {
             font-family: 'Sarabun', sans-serif;
             background-color: var(--color-bg);
@@ -66,21 +99,23 @@
             flex-direction: column;
             justify-content: flex-start;
             padding: 0;
+            transition: all 0.5s ease;
         }
 
-        /* Header V1 Theme */
+        /* Header */
         header {
-            background-color: var(--color-primary-v1);
+            background-color: var(--color-primary);
             color: var(--color-text-light);
             padding: 1.5rem 1rem;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             margin-bottom: 1rem;
+            transition: background-color 0.5s;
         }
         header h1 {
             font-size: 1.8rem;
             margin: 0;
         }
-        
+
         /* Screen Management */
         .screen {
             padding: 1rem;
@@ -92,103 +127,90 @@
         .screen.active {
             display: flex;
         }
-        
-        /* Utility */
-        button {
-            border: none;
-            padding: 1rem 0.5rem;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.1s, transform 0.1s;
-            line-height: 1.3;
-        }
-        
+
         /* --- Level Selection Screen --- */
         #level-select-screen .level-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); 
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             padding: 1rem 0;
         }
         .level-btn {
-            background-color: var(--color-secondary-v1); 
+            background-color: var(--color-secondary); 
             color: var(--color-text-light);
-            box-shadow: 0 4px 0 #6A1B9A;
-            height: 120px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 0.5rem;
-            font-size: 1.2rem;
+            border: none;
+            padding: 1.5rem 0.5rem;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #3188d6;
+            transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
         }
-        .level-btn-title {
-            font-size: 1.5rem;
-            font-weight: 900;
+        .level-btn.level-btn-11-20 {
+            background-color: #9B59B6; 
+            box-shadow: 0 4px 0 #8E44AD;
         }
         .level-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #6A1B9A;
+            box-shadow: 0 2px 0 #3188d6;
         }
-
+        .level-btn.level-btn-11-20:active {
+            box-shadow: 0 2px 0 #8E44AD;
+        }
+        .level-btn-title {
+            font-size: 0.8rem;
+            font-weight: 400;
+            display: block;
+            margin-top: 5px;
+        }
+        
         /* --- Mode Selection Screen --- */
         #mode-select-screen {
             justify-content: center;
             align-items: center;
             gap: 20px;
         }
-        .mode-btn-group {
+        #mode-select-screen .mode-btn-group {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 100%;
+            width: 80%;
         }
         .mode-btn {
-            background-color: var(--color-secondary-v1);
+            background-color: var(--color-secondary);
             color: var(--color-text-light);
-            box-shadow: 0 5px 0 #6A1B9A;
+            border: none;
+            padding: 1.5rem;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #3188d6;
+            transition: transform 0.1s, box-shadow 0.1s;
         }
         .mode-btn:nth-child(2) {
-            background-color: var(--color-gold); 
-            color: var(--color-text-dark);
-            box-shadow: 0 5px 0 #FFB300;
-        }
-        #back-to-level-btn {
-            background-color: #B0BEC5; 
-            box-shadow: 0 5px 0 #90A4AE;
+            background-color: #FBC02D; /* Yellow/Gold for Auto */
+            box-shadow: 0 5px 0 #F9A825;
         }
         .mode-btn:active {
             transform: translateY(3px);
-            box-shadow: 0 2px 0 #6A1B9A;
+            box-shadow: 0 2px 0 #3188d6;
         }
         
         /* --- Game Screen --- */
-        .status-bar {
+        #game-screen .status-bar {
             display: flex;
             justify-content: space-between;
-            font-weight: 700;
+            align-items: center;
             padding: 0.5rem 0;
-            font-size: 1rem;
-        }
-
-        #timer-bar-container {
-            height: 10px;
-            background-color: #E0E0E0;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-        #timer-bar {
-            height: 100%;
-            width: 100%;
-            background-color: var(--color-secondary-v1);
+            font-weight: bold;
+            margin-bottom: 1.5rem;
         }
 
         #prompt-area {
             background-color: var(--color-bg);
-            border: 3px solid var(--color-primary-v1);
+            border: 3px solid var(--color-primary);
             border-radius: 20px;
             padding: 2rem 1rem;
             min-height: 100px;
@@ -197,115 +219,137 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.5s ease;
         }
         #thai-prompt {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #616161;
-            line-height: 1.3;
-            margin-top: 5px;
-        }
-        #v1-prompt { 
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
-            color: var(--color-primary-v1);
-            margin-bottom: 5px;
-            transition: color 0.3s;
+            color: var(--color-primary);
+            line-height: 1.3;
         }
         
+        /* Timer Bar */
+        #timer-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #ECEFF1;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        #timer-bar {
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-secondary);
+            transition: width 5s linear; /* Default to 5s */
+        }
+
         /* Choice Buttons */
         #choices {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            flex-grow: 1;
+            gap: 12px;
+            flex-grow: 1; 
+            justify-content: center; 
         }
         .choice-button {
-            background-color: #AA00FF; 
+            background-color: #3498DB;
             color: var(--color-text-light);
-            box-shadow: 0 5px 0 #8900CC;
-            font-size: 2rem; 
-            padding: 1.5rem 0.5rem;
-            position: relative;
-            z-index: 1;
-        }
-        .choice-button:active:not(:disabled) {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #8900CC;
+            border: none;
+            padding: 1.5rem;
+            border-radius: 15px; 
+            font-size: 1.6rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #2980B9;
+            transition: all 0.2s ease-in-out;
         }
         .choice-button.correct {
             background-color: var(--color-correct);
             box-shadow: 0 5px 0 #388E3C;
+            font-size: 2.5rem; 
         }
         .choice-button.wrong {
             background-color: var(--color-wrong);
             box-shadow: 0 5px 0 #C62828;
         }
         .choice-button.hidden-on-reveal {
-            opacity: 0.3;
-            transform: scale(0.95);
-            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            transition: opacity 0.3s, height 0.3s, padding 0.3s, margin 0.3s;
         }
         
-        /* Footer/Control - START FIX 1: Equal height and text split */
+        /* Footer/Control - FIX 3: Equal height and text split */
         #game-footer {
-            padding-top: 15px;
             display: flex;
-            gap: 10px;
-            align-items: center;
             justify-content: space-between;
+            gap: 10px; 
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ECEFF1;
         }
-        
+
         #game-footer button {
             /* Fix: Enforce equal height and use flex for centering */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 60px; /* Target height from original homophones buttons */
+            height: 60px; /* Target height */
             padding: 0.5rem 0.5rem; /* Adjust padding to fit the height */
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.1s;
         }
         
         #next-btn {
-            flex-grow: 1;
-            background-color: var(--color-primary-v1);
+            background-color: var(--color-primary);
             color: var(--color-text-light);
-            box-shadow: 0 4px 0 #4A148C;
-            font-size: 1.2rem;
-            line-height: 1.1; /* Ensure text fits */
+            box-shadow: 0 4px 0 #E64A19;
+            /* width and flex is set in auto-mode class */
         }
-        #next-btn:active:not(:disabled) {
+        #next-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #4A148C;
-        }
-        #next-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            box-shadow: 0 2px 0 #E64A19;
         }
         
         /* Auto Toggle Button */
         #auto-toggle-btn {
-            width: 120px;
-            background-color: var(--color-gold); 
-            color: var(--color-text-dark);
-            box-shadow: 0 4px 0 #FFB300;
-            font-size: 1.2rem;
-            /* Text split is handled in HTML/JS with span */
+            background-color: var(--color-correct); 
+            color: var(--color-text-light);
+            box-shadow: 0 4px 0 #388E3C;
+            width: 40%; /* Default width */
         }
+        #auto-toggle-btn.auto-active {
+            background-color: var(--color-wrong); /* Red for STOP Auto */
+            box-shadow: 0 4px 0 #C62828;
+        }
+        #auto-toggle-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0;
+        }
+
         #auto-toggle-btn span {
-            /* This span holds the '(Auto)' part and forces a new line */
+            /* Forces a new line for the (Auto) part */
             display: block; 
             font-size: 0.8em;
             font-weight: 400;
             line-height: 1;
         }
-        #auto-toggle-btn.auto-active {
-            background-color: var(--color-wrong); 
-            box-shadow: 0 4px 0 #C62828;
-            color: var(--color-text-light);
+
+        /* Adjust button widths when auto-toggle is visible */
+        #game-footer #next-btn {
+             width: 100%; /* Default when auto button is hidden/inactive */
         }
-        /* Footer/Control - END FIX 1 */
+        #game-footer.auto-mode #next-btn {
+            width: 60%;
+        }
+        /* Footer/Control - END FIX 3 */
         
     </style>
 </head>
@@ -317,7 +361,7 @@
         </header>
 
         <div id="level-select-screen" class="screen active">
-            <h2>🏆 เลือกชุดคำศัพท์</h2>
+            <h2>🏆 ชุดคำศัพท์</h2>
             <p>เลือกชุดคำศัพท์ที่คุณต้องการฝึกฝน:</p>
             <div class="level-grid" id="level-grid">
                 </div>
@@ -325,8 +369,8 @@
         </div>
         
         <div id="mode-select-screen" class="screen">
-            <h2 id="mode-level-title">ชุดที่ X</h2>
-            <p>เลือกโหมดการเล่นสำหรับชุดนี้:</p>
+            <h2 id="mode-level-title">ชุด X</h2>
+            <p>เลือกโหมดการเล่นสำหรับชุดคำศัพท์นี้:</p>
             <div class="mode-btn-group">
                 <button id="start-normal-btn" class="mode-btn">
                     ▶️ เริ่มเกม (โหมดปกติ)
@@ -337,7 +381,7 @@
                     <span style="display:block; font-size: 0.8em; font-weight: 400;">เฉลยอัตโนมัติ, เวลา 3 วินาที</span>
                 </button>
             </div>
-            <button id="back-to-level-btn" class="mode-btn" style="margin-top: 20px;">
+            <button id="back-to-level-btn" class="mode-btn" style="width: 80%; background-color: #B0BEC5; box-shadow: 0 5px 0 #90A4AE;">
                 🔙 กลับไปหน้าเลือกชุดคำศัพท์
             </button>
         </div>
@@ -346,8 +390,8 @@
         <div id="game-screen" class="screen">
             <div class="top-content">
                 <div class="status-bar">
-                    <span id="level-title">ชุดคำศัพท์: </span>
-                    <span id="q-count">คำที่: 0/10</span>
+                    <span id="level-title">ชุด: </span>
+                    <span id="q-count">ข้อ: 0/10</span>
                     <span id="score">คะแนน: 0</span>
                 </div>
 
@@ -356,8 +400,7 @@
                 </div>
 
                 <div id="prompt-area">
-                    <span id="v1-prompt">V1 (Infinitive)</span>
-                    <span id="thai-prompt">คำแปลภาษาไทย</span>
+                    <span id="thai-prompt">โจทย์คำแปลภาษาไทย</span>
                 </div>
 
                 <div id="choices">
@@ -377,19 +420,247 @@
     </div>
 
     <script>
-        // --- DATA (10 Sample Verbs - FIX 4: Removed V1=V2=V3 (cut)) ---
-        const allVerbData = [
-            { id: 1, title: "ชุดเริ่มต้น (A-D)", verbs: [
-                { v1: "be", v2: "was/were", v3: "been", thai: "เป็น, อยู่, คือ" },
-                { v1: "begin", v2: "began", v3: "begun", thai: "เริ่ม" },
-                { v1: "break", v2: "broke", v3: "broken", thai: "ทำลาย, แตก" },
-                { v1: "bring", v2: "brought", v3: "brought", thai: "นำมา" },
-                { v1: "build", v2: "built", v3: "built", thai: "สร้าง" },
-                { v1: "buy", v2: "bought", v3: "bought", thai: "ซื้อ" },
-                { v1: "catch", v2: "caught", v3: "caught", thai: "จับ" },
-                { v1: "choose", v2: "chose", v3: "chosen", thai: "เลือก" },
-                { v1: "come", v2: "came", v3: "come", thai: "มา" },
-                { v1: "do", v2: "did", v3: "done", thai: "ทำ" }, // Replaced 'cut'
+        // --- DATA (20 Sets x 10 Questions = 200 verbs) ---
+        const allQuizData = [
+            { id: 1, title: "ชุด A-C พื้นฐาน", questions: [
+                { thai: "เป็น/อยู่/คือ", v1: "be", v2: "was/were", v3: "been", decoy: "become" },
+                { thai: "เริ่ม", v1: "begin", v2: "began", v3: "begun", decoy: "come" },
+                { thai: "ซื้อ", v1: "buy", v2: "bought", v3: "bought", decoy: "catch" },
+                { thai: "มา", v1: "come", v2: "came", v3: "come", decoy: "cut" },
+                { thai: "จับ", v1: "catch", v2: "caught", v3: "caught", decoy: "choose" },
+                { thai: "ทำ", v1: "do", v2: "did", v3: "done", decoy: "drink" },
+                { thai: "ขับ", v1: "drive", v2: "drove", v3: "driven", decoy: "eat" },
+                { thai: "ดื่ม", v1: "drink", v2: "drank", v3: "drunk", decoy: "fall" },
+                { thai: "กิน", v1: "eat", v2: "ate", v3: "eaten", decoy: "feel" },
+                { thai: "บิน", v1: "fly", v2: "flew", v3: "flown", decoy: "find" },
+            ]},
+            { id: 2, title: "ชุด F-H", questions: [
+                { thai: "ให้", v1: "give", v2: "gave", v3: "given", decoy: "go" },
+                { thai: "ไป", v1: "go", v2: "went", v3: "gone", decoy: "have" },
+                { thai: "มี", v1: "have", v2: "had", v3: "had", decoy: "hear" },
+                { thai: "ได้ยิน", v1: "hear", v2: "heard", v3: "heard", decoy: "hold" },
+                { thai: "เก็บ/รักษา", v1: "keep", v2: "kept", v3: "kept", decoy: "know" },
+                { thai: "รู้", v1: "know", v2: "knew", v3: "known", decoy: "leave" },
+                { thai: "เรียนรู้", v1: "learn", v2: "learned/learnt", v3: "learned/learnt", decoy: "lose" },
+                { thai: "ทำ/สร้าง", v1: "make", v2: "made", v3: "made", decoy: "meet" },
+                { thai: "พบ", v1: "meet", v2: "met", v3: "met", decoy: "pay" },
+                { thai: "จ่าย", v1: "pay", v2: "paid", v3: "paid", decoy: "put" },
+            ]},
+            { id: 3, title: "ชุด R-W พื้นฐาน", questions: [
+                { thai: "อ่าน", v1: "read", v2: "read", v3: "read", decoy: "run" },
+                { thai: "พูด/กล่าว", v1: "say", v2: "said", v3: "said", decoy: "see" },
+                { thai: "เห็น", v1: "see", v2: "saw", v3: "seen", decoy: "send" },
+                { thai: "ส่ง", v1: "send", v2: "sent", v3: "sent", decoy: "sing" },
+                { thai: "นั่ง", v1: "sit", v2: "sat", v3: "sat", decoy: "sleep" },
+                { thai: "นอน", v1: "sleep", v2: "slept", v3: "slept", decoy: "speak" },
+                { thai: "พูด", v1: "speak", v2: "spoke", v3: "spoken", decoy: "stand" },
+                { thai: "ยืน", v1: "stand", v2: "stood", v3: "stood", decoy: "swim" },
+                { thai: "เอา/พาไป", v1: "take", v2: "took", v3: "taken", decoy: "teach" },
+                { thai: "เขียน", v1: "write", v2: "wrote", v3: "written", decoy: "win" },
+            ]},
+            { id: 4, title: "คำกริยาที่เปลี่ยนทั้งหมด", questions: [
+                { thai: "หัก/ทำลาย", v1: "break", v2: "broke", v3: "broken", decoy: "bring" },
+                { thai: "นำมา", v1: "bring", v2: "brought", v3: "brought", decoy: "build" },
+                { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "cost" },
+                { thai: "เลือก", v1: "choose", v2: "chose", v3: "chosen", decoy: "draw" },
+                { thai: "วาด", v1: "draw", v2: "drew", v3: "drawn", decoy: "find" },
+                { thai: "ลืม", v1: "forget", v2: "forgot", v3: "forgotten", decoy: "get" },
+                { thai: "ได้", v1: "get", v2: "got", v3: "got/gotten", decoy: "grow" },
+                { thai: "โต/ปลูก", v1: "grow", v2: "grew", v3: "grown", decoy: "lie" },
+                { thai: "ขี่", v1: "ride", v2: "rode", v3: "ridden", decoy: "ring" },
+                { thai: "เห็น/แสดง", v1: "show", v2: "showed", v3: "shown/showed", decoy: "sing" },
+            ]},
+            { id: 5, title: "คำกริยาที่คงที่", questions: [
+                { thai: "ตัด", v1: "cut", v2: "cut", v3: "cut", decoy: "cost" },
+                { thai: "ให้ราคา", v1: "cost", v2: "cost", v3: "cost", decoy: "hit" },
+                { thai: "ชน/ตี", v1: "hit", v2: "hit", v3: "hit", decoy: "hurt" },
+                { thai: "ทำให้เจ็บ", v1: "hurt", v2: "hurt", v3: "hurt", decoy: "let" },
+                { thai: "ให้เช่า/อนุญาต", v1: "let", v2: "let", v3: "let", decoy: "put" },
+                { thai: "ใส่/วาง", v1: "put", v2: "put", v3: "put", decoy: "shut" },
+                { thai: "ปิด", v1: "shut", v2: "shut", v3: "shut", decoy: "spread" },
+                { thai: "กระจาย", v1: "spread", v2: "spread", v3: "spread", decoy: "quit" },
+                { thai: "เลิก", v1: "quit", v2: "quit", v3: "quit", decoy: "set" },
+                { thai: "ตั้ง/จัด", v1: "set", v2: "set", v3: "set", decoy: "cost" },
+            ]},
+            { id: 6, title: "ชุด V2/V3 เหมือนกัน 1", questions: [
+                { thai: "ฝัน", v1: "dream", v2: "dreamed/dreamt", v3: "dreamed/dreamt", decoy: "feel" },
+                { thai: "รู้สึก", v1: "feel", v2: "felt", v3: "felt", decoy: "fight" },
+                { thai: "ต่อสู้", v1: "fight", v2: "fought", v3: "fought", decoy: "find" },
+                { thai: "พบ", v1: "find", v2: "found", v3: "found", decoy: "get" },
+                { thai: "แขวน", v1: "hang", v2: "hung", v3: "hung", decoy: "have" },
+                { thai: "ทำ/สร้าง", v1: "make", v2: "made", v3: "made", decoy: "mean" },
+                { thai: "หมายถึง", v1: "mean", v2: "meant", v3: "meant", decoy: "sell" },
+                { thai: "ขาย", v1: "sell", v2: "sold", v3: "sold", decoy: "send" },
+                { thai: "ยิง", v1: "shoot", v2: "shot", v3: "shot", decoy: "sleep" },
+                { thai: "สอน", v1: "teach", v2: "taught", v3: "taught", decoy: "think" },
+            ]},
+            { id: 7, title: "ชุด V2/V3 เหมือนกัน 2", questions: [
+                { thai: "บอก", v1: "tell", v2: "told", v3: "told", decoy: "think" },
+                { thai: "คิด", v1: "think", v2: "thought", v3: "thought", decoy: "understand" },
+                { thai: "ชนะ", v1: "win", v2: "won", v3: "won", decoy: "write" },
+                { thai: "เข้าใจ", v1: "understand", v2: "understood", v3: "understood", decoy: "wear" },
+                { thai: "สวมใส่", v1: "wear", v2: "wore", v3: "worn", decoy: "lend" },
+                { thai: "ให้ยืม", v1: "lend", v2: "lent", v3: "lent", decoy: "lose" },
+                { thai: "แพ้/หาย", v1: "lose", v2: "lost", v3: "lost", decoy: "light" },
+                { thai: "จุดไฟ/ส่อง", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "sit" },
+                { thai: "ขุด", v1: "dig", v2: "dug", v3: "dug", decoy: "stand" },
+                { thai: "ติด/ยึด", v1: "stick", v2: "stuck", v3: "stuck", decoy: "strike" },
+            ]},
+            { id: 8, title: "คำกริยาที่คล้ายกัน", questions: [
+                { thai: "กลายเป็น", v1: "become", v2: "became", v3: "become", decoy: "begin" },
+                { thai: "วิ่ง", v1: "run", v2: "ran", v3: "run", decoy: "ring" },
+                { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "drink" },
+                { thai: "ยก/ลุกขึ้น", v1: "rise", v2: "rose", v3: "risen", decoy: "raise" },
+                { thai: "เป่า", v1: "blow", v2: "blew", v3: "blown", decoy: "break" },
+                { thai: "วาด/ดึง", v1: "draw", v2: "drew", v3: "drawn", decoy: "drive" },
+                { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "hold" },
+                { thai: "สั่น", v1: "shake", v2: "shook", v3: "shaken", decoy: "take" },
+                { thai: "เห็น", v1: "see", v2: "saw", v3: "seen", decoy: "say" },
+                { thai: "พัด/เป่า", v1: "wind", v2: "wound", v3: "wound", decoy: "wring" },
+            ]},
+            { id: 9, title: "กริยายาก 1", questions: [
+                { thai: "ทำผิด", v1: "mistake", v2: "mistook", v3: "mistaken", decoy: "misunderstand" },
+                { thai: "ให้อภัย", v1: "forgive", v2: "forgave", v3: "forgiven", decoy: "forget" },
+                { thai: "ละทิ้ง", v1: "forsake", v2: "forsook", v3: "forsaken", decoy: "foresee" },
+                { thai: "คาดการณ์", v1: "foresee", v2: "foresaw", v3: "foreseen", decoy: "forget" },
+                { thai: "ต่อสู้ดิ้นรน", v1: "strive", v2: "strove", v3: "striven", decoy: "stride" },
+                { thai: "เอาชนะ", v1: "overcome", v2: "overcame", v3: "overcome", decoy: "overdo" },
+                { thai: "เหวี่ยง/แกว่ง", v1: "swing", v2: "swung", v3: "swung", decoy: "swim" },
+                { thai: "สาบาน", v1: "swear", v2: "swore", v3: "sworn", decoy: "wear" },
+                { thai: "ทำให้เปียก", v1: "wet", v2: "wet/wetted", v3: "wet/wetted", decoy: "wring" },
+                { thai: "บีบ/คั้น", v1: "wring", v2: "wrung", v3: "wrung", decoy: "wind" },
+            ]},
+            { id: 10, title: "กริยายาก 2", questions: [
+                { thai: "กัด", v1: "bite", v2: "bit", v3: "bitten", decoy: "bear" },
+                { thai: "เกิด", v1: "bear", v2: "bore", v3: "born/borne", decoy: "beat" },
+                { thai: "ซ่อน/ซุ่ม", v1: "lie", v2: "lay", v3: "lain", decoy: "lay" },
+                { thai: "วาง", v1: "lay", v2: "laid", v3: "laid", decoy: "lie" },
+                { thai: "ขอร้อง", v1: "plead", v2: "pleaded/pled", v3: "pleaded/pled", decoy: "pay" },
+                { thai: "พิสูจน์", v1: "prove", v2: "proved", v3: "proven/proved", decoy: "pay" },
+                { thai: "ปอกเปลือก", v1: "shed", v2: "shed", v3: "shed", decoy: "shoot" },
+                { thai: "เย็บ", v1: "sew", v2: "sewed", v3: "sewn/sewed", decoy: "show" },
+                { thai: "ลื่น", v1: "slide", v2: "slid", v3: "slid", decoy: "stick" },
+                { thai: "ทำลาย", v1: "undo", v2: "undid", v3: "undone", decoy: "understand" },
+            ]},
+             { id: 11, title: "คำที่มี -ew/-own", questions: [
+                { thai: "โยน", v1: "throw", v2: "threw", v3: "thrown", decoy: "grow" },
+                { thai: "ปลูก/โต", v1: "grow", v2: "grew", v3: "grown", decoy: "know" },
+                { thai: "บิน", v1: "fly", v2: "flew", v3: "flown", decoy: "blow" },
+                { thai: "เป่า", v1: "blow", v2: "blew", v3: "blown", decoy: "draw" },
+                { thai: "วาด/ดึง", v1: "draw", v2: "drew", v3: "drawn", decoy: "drive" },
+                { thai: "รู้", v1: "know", v2: "knew", v3: "known", decoy: "show" },
+                { thai: "แสดง", v1: "show", v2: "showed", v3: "shown/showed", decoy: "sow" },
+                { thai: "หว่าน", v1: "sow", v2: "sowed", v3: "sown/sowed", decoy: "saw" },
+                { thai: "เลื่อย", v1: "saw", v2: "sawed", v3: "sawn/sawed", decoy: "sell" },
+                { thai: "บีบ/คั้น", v1: "wring", v2: "wrung", v3: "wrung", decoy: "ring" },
+            ]},
+            { id: 12, title: "V2 = V3: -ght/-d/-t", questions: [
+                { thai: "นำมา", v1: "bring", v2: "brought", v3: "brought", decoy: "buy" },
+                { thai: "ซื้อ", v1: "buy", v2: "bought", v3: "bought", decoy: "catch" },
+                { thai: "จับ", v1: "catch", v2: "caught", v3: "caught", decoy: "fight" },
+                { thai: "ต่อสู้", v1: "fight", v2: "fought", v3: "fought", decoy: "seek" },
+                { thai: "แสวงหา", v1: "seek", v2: "sought", v3: "sought", decoy: "teach" },
+                { thai: "คิด", v1: "think", v2: "thought", v3: "thought", decoy: "send" },
+                { thai: "ให้ยืม", v1: "lend", v2: "lent", v3: "lent", decoy: "lose" },
+                { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "keep" },
+                { thai: "เผา", v1: "burn", v2: "burnt/burned", v3: "burnt/burned", decoy: "dream" },
+                { thai: "โค้งคำนับ", v1: "bend", v2: "bent", v3: "bent", decoy: "send" },
+            ]},
+            { id: 13, title: "V1/V2/V3 ต่างกัน", questions: [
+                { thai: "เป็น/อยู่/คือ", v1: "be", v2: "was/were", v3: "been", decoy: "bear" },
+                { thai: "ไป", v1: "go", v2: "went", v3: "gone", decoy: "do" },
+                { thai: "กิน", v1: "eat", v2: "ate", v3: "eaten", decoy: "fall" },
+                { thai: "ทำ", v1: "do", v2: "did", v3: "done", decoy: "drive" },
+                { thai: "เห็น", v1: "see", v2: "saw", v3: "seen", decoy: "sing" },
+                { thai: "ให้", v1: "give", v2: "gave", v3: "given", decoy: "forgive" },
+                { thai: "เอา/พา", v1: "take", v2: "took", v3: "taken", decoy: "shake" },
+                { thai: "ทำลาย/หัก", v1: "break", v2: "broke", v3: "broken", decoy: "speak" },
+                { thai: "เลือก", v1: "choose", v2: "chose", v3: "chosen", decoy: "drive" },
+                { thai: "ขับ", v1: "drive", v2: "drove", v3: "driven", decoy: "write" },
+            ]},
+            { id: 14, title: "V1 = V3 (คำซ้ำ)", questions: [
+                { thai: "มา", v1: "come", v2: "came", v3: "come", decoy: "become" },
+                { thai: "วิ่ง", v1: "run", v2: "ran", v3: "run", decoy: "ring" },
+                { thai: "เป็น/อยู่/คือ", v1: "become", v2: "became", v3: "become", decoy: "come" },
+                { thai: "ทุบ/ตี", v1: "beat", v2: "beat", v3: "beaten/beat", decoy: "bite" },
+                { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "ride" },
+                { thai: "ห้าม", v1: "forbid", v2: "forbade", v3: "forbidden", decoy: "forget" },
+                { thai: "กัด", v1: "bite", v2: "bit", v3: "bitten", decoy: "hide" },
+                { thai: "คลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
+                { thai: "กระโดด", v1: "leap", v2: "leaped/leapt", v3: "leaped/leapt", decoy: "sleep" },
+                { thai: "ส่องแสง", v1: "shine", v2: "shone", v3: "shone", decoy: "show" },
+            ]},
+            { id: 15, title: "คำกริยาที่ -ing", questions: [
+                { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "begin" },
+                { thai: "ร้องเพลง", v1: "sing", v2: "sang", v3: "sung", decoy: "ring" },
+                { thai: "กระดิ่ง", v1: "ring", v2: "rang", v3: "rung", decoy: "drink" },
+                { thai: "ดื่ม", v1: "drink", v2: "drank", v3: "drunk", decoy: "sink" },
+                { thai: "จม", v1: "sink", v2: "sank", v3: "sunk", decoy: "shrink" },
+                { thai: "หด", v1: "shrink", v2: "shrank/shrunk", v3: "shrunk", decoy: "spring" },
+                { thai: "กระโดด", v1: "spring", v2: "sprang/sprung", v3: "sprung", decoy: "stink" },
+                { thai: "เหม็น", v1: "stink", v2: "stank/stunk", v3: "stunk", decoy: "swing" },
+                { thai: "แกว่ง", v1: "swing", v2: "swung", v3: "swung", decoy: "sting" },
+                { thai: "ต่อย/แทง", v1: "sting", v2: "stung", v3: "stung", decoy: "sling" },
+            ]},
+            { id: 16, title: "กริยายาก 3 (สับสน)", questions: [
+                { thai: "โกน", v1: "shave", v2: "shaved", v3: "shaved/shaven", decoy: "show" },
+                { thai: "แสดง", v1: "show", v2: "showed", v3: "shown/showed", decoy: "sow" },
+                { thai: "เลื่อย", v1: "saw", v2: "sawed", v3: "sawn/sawed", decoy: "see" },
+                { thai: "ถ่มน้ำลาย", v1: "spit", v2: "spat/spit", v3: "spat/spit", decoy: "sit" },
+                { thai: "ผ่า/แยก", v1: "split", v2: "split", v3: "split", decoy: "spread" },
+                { thai: "ผูกมัด", v1: "bind", v2: "bound", v3: "bound", decoy: "find" },
+                { thai: "คืบคลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
+                { thai: "คลุกคลี", v1: "deal", v2: "dealt", v3: "dealt", decoy: "dig" },
+                { thai: "หนี", v1: "flee", v2: "fled", v3: "fled", decoy: "fly" },
+                { thai: "ได้รับ", v1: "get", v2: "got", v3: "got/gotten", decoy: "give" },
+            ]},
+            { id: 17, title: "กริยายาก 4 (ซ้ำ V2/V3)", questions: [
+                { thai: "แขวน (คอ)", v1: "hang", v2: "hanged", v3: "hanged", decoy: "hung" },
+                { thai: "ยึด/ถือ", v1: "hold", v2: "held", v3: "held", decoy: "hide" },
+                { thai: "คุกเข่า", v1: "kneel", v2: "knelt/kneeled", v3: "knelt/kneeled", decoy: "know" },
+                { thai: "วางไข่/ซ่อน", v1: "lay", v2: "laid", v3: "laid", decoy: "lie" },
+                { thai: "นำทาง", v1: "lead", v2: "led", v3: "led", decoy: "read" },
+                { thai: "กระโดด", v1: "leap", v2: "leapt/leaped", v3: "leapt/leaped", decoy: "sleep" },
+                { thai: "ส่องแสง", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "lose" },
+                { thai: "หมายถึง", v1: "mean", v2: "meant", v3: "meant", decoy: "meet" },
+                { thai: "ขอร้อง", v1: "plead", v2: "pleaded/pled", v3: "pleaded/pled", decoy: "pay" },
+                { thai: "จ่าย", v1: "pay", v2: "paid", v3: "paid", decoy: "put" },
+            ]},
+            { id: 18, title: "คำกริยาที่ออกเสียงคล้าย", questions: [
+                { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "hear" },
+                { thai: "ขี่", v1: "ride", v2: "rode", v3: "ridden", decoy: "ring" },
+                { thai: "ยืน", v1: "stand", v2: "stood", v3: "stood", decoy: "steal" },
+                { thai: "เข้าใจ", v1: "understand", v2: "understood", v3: "understood", decoy: "stand" },
+                { thai: "กิน", v1: "eat", v2: "ate", v3: "eaten", decoy: "sit" },
+                { thai: "ตก/ล้ม", v1: "fall", v2: "fell", v3: "fallen", decoy: "feel" },
+                { thai: "หนี", v1: "flee", v2: "fled", v3: "fled", decoy: "fly" },
+                { thai: "ได้", v1: "get", v2: "got", v3: "got/gotten", decoy: "give" },
+                { thai: "ตี", v1: "strike", v2: "struck", v3: "struck/stricken", decoy: "stick" },
+                { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "swing" },
+            ]},
+            { id: 19, title: "คำกริยาที่ลงท้ายด้วย -d", questions: [
+                { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "buy" },
+                { thai: "มี/เป็น", v1: "have", v2: "had", v3: "had", decoy: "hear" },
+                { thai: "นำ", v1: "lead", v2: "led", v3: "led", decoy: "read" },
+                { thai: "ให้ยืม", v1: "lend", v2: "lent", v3: "lent", decoy: "send" },
+                { thai: "ทำให้", v1: "make", v2: "made", v3: "made", decoy: "meet" },
+                { thai: "จ่าย", v1: "pay", v2: "paid", v3: "paid", decoy: "say" },
+                { thai: "พูด/กล่าว", v1: "say", v2: "said", v3: "said", decoy: "see" },
+                { thai: "ขาย", v1: "sell", v2: "sold", v3: "sold", decoy: "tell" },
+                { thai: "บอก", v1: "tell", v2: "told", v3: "told", decoy: "think" },
+                { thai: "ขุด", v1: "dig", v2: "dug", v3: "dug", decoy: "drink" },
+            ]},
+            { id: 20, title: "คำกริยาที่ออกเสียงแปลก", questions: [
+                { thai: "อ่าน", v1: "read", v2: "read", v3: "read", decoy: "ride" },
+                { thai: "ก้ม/โค้ง", v1: "bend", v2: "bent", v3: "bent", decoy: "bind" },
+                { thai: "ผูก", v1: "bind", v2: "bound", v3: "bound", decoy: "bend" },
+                { thai: "คลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
+                { thai: "ฝัน", v1: "dream", v2: "dreamed/dreamt", v3: "dreamed/dreamt", decoy: "drink" },
+                { thai: "หนี", v1: "flee", v2: "fled", v3: "fled", decoy: "feel" },
+                { thai: "ได้ยิน", v1: "hear", v2: "heard", v3: "heard", decoy: "hold" },
+                { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "hit" },
+                { thai: "จุดไฟ", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "lose" },
+                { thai: "ชนะ", v1: "win", v2: "won", v3: "won", decoy: "write" },
             ]},
         ];
 
@@ -397,9 +668,9 @@
         const NORMAL_TIMER_MS = 5000;
         const AUTO_PLAY_TIMER_MS = 3000; 
         const POST_THAI_SPEECH_DELAY_MS = 500; // FIX 2: 0.5s pause after Thai speech
-        const SLASH_SPEECH_DELAY_MS = 250; // FIX 3: 0.25s pause between slash words
+        const SLASH_SPEECH_DELAY_MS = 250; // FIX 1: 0.25s pause between slash words
 
-        // --- ELEMENTS (unchanged) ---
+        // --- ELEMENTS ---
         const mainContainer = document.getElementById('main-container');
         const levelSelectScreen = document.getElementById('level-select-screen');
         const modeSelectScreen = document.getElementById('mode-select-screen');
@@ -410,34 +681,32 @@
         const levelTitleEl = document.getElementById('level-title');
         const qCountEl = document.getElementById('q-count');
         const scoreEl = document.getElementById('score');
-        const v1PromptEl = document.getElementById('v1-prompt'); 
-        const thaiPromptEl = document.getElementById('thai-prompt'); 
+        const thaiPromptEl = document.getElementById('thai-prompt');
         const timerBarEl = document.getElementById('timer-bar');
         const choiceA = document.getElementById('choice-A');
         const choiceB = document.getElementById('choice-B');
         const nextBtn = document.getElementById('next-btn');
         const autoToggleBtn = document.getElementById('auto-toggle-btn');
+        const gameFooterEl = document.getElementById('game-footer');
         const choiceButtons = [choiceA, choiceB];
         const startNormalBtn = document.getElementById('start-normal-btn');
         const startAutoBtn = document.getElementById('start-auto-btn');
         const backToLevelBtn = document.getElementById('back-to-level-btn');
 
-        // --- GAME STATE (unchanged) ---
-        let selectedSetId = null; 
-        let currentVerbSet = null;
-        let currentVerbIndex = 0;
+        // --- GAME STATE ---
+        let selectedLevelId = null; 
+        let currentLevelData = null;
+        let currentQuizIndex = 0;
         let score = 0;
         let timerTimeout = null;
         let autoPlayTimeout = null;
         let isAnswered = false;
         let isAutoPlay = false; 
-        let isV2Step = true; 
         let isSpeaking = false;
         let voices = [];
         let audioContext;
 
-
-        // --- CORE FUNCTIONS (AUDIO TONE & SPEECH SYNTHESIS) ---
+        // --- CORE FUNCTIONS (AUDIO TONE) ---
         function initAudioContext() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -478,6 +747,7 @@
             createTone(150, 0.4, 'triangle', 0.7, 200); 
         }
 
+        // --- CORE FUNCTIONS (SPEECH SYNTHESIS) ---
         function setupSpeech() {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.onvoiceschanged = () => {
@@ -498,14 +768,14 @@
         /**
          * Speak a single block of text (used for Thai or single English words)
          */
-        function speakText(text, lang, onEndCallback = null) {
+        function speakText(text, lang, onEndCallback = null, isPart = false) {
             if (!'speechSynthesis' in window) {
                 if(onEndCallback) onEndCallback();
                 return;
             }
-            // Do not cancel if part of a sequence (like the slash sequence)
-            if(lang === 'th-TH' || text.indexOf('/') === -1) { 
-                window.speechSynthesis.cancel();
+            // Only cancel previous speech if this is NOT part of a slash sequence
+            if (!isPart) { 
+                 window.speechSynthesis.cancel();
             }
             
             isSpeaking = true;
@@ -531,7 +801,7 @@
         }
 
         /**
-         * FIX 3: Speak English words with a slash (/) with a delay between them.
+         * FIX 1: Speak English words with a slash (/) with a delay between them.
          */
         function speakWithSlash(text, lang, partDelay, onEnd = null) {
             if(text.indexOf('/') === -1) {
@@ -580,27 +850,32 @@
             
             speakNextPart();
         }
-        
+
         /**
-         * FIX 2: Handle the sequential speech (English -> Thai -> Pause) for Auto mode.
+         * FIX 2: Handle the sequential speech (V3 -> V2 -> V1 -> Thai -> Pause) for Auto mode.
          */
-        function handleRevealSpeech(englishWord, thaiMeaning, finalAction) {
+        function handleRevealSpeech(v1, v2, v3, thaiMeaning, finalAction) {
             window.speechSynthesis.cancel();
 
-            // 1. Speak English word (with slash pause if needed)
-            speakWithSlash(englishWord, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
-                // 2. Speak Thai meaning
-                speakText(thaiMeaning, 'th-TH', () => {
-                    // 3. 0.5 second pause before final action (advancing the game)
-                    if (finalAction) {
-                        autoPlayTimeout = setTimeout(finalAction, POST_THAI_SPEECH_DELAY_MS); 
-                    }
+            // 1. Speak V3 (with slash pause if needed)
+            speakWithSlash(v3, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
+                // 2. Speak V2 (with slash pause if needed)
+                speakWithSlash(v2, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
+                     // 3. Speak V1 (with slash pause if needed)
+                    speakWithSlash(v1, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
+                        // 4. Speak Thai meaning
+                        speakText(thaiMeaning, 'th-TH', () => {
+                            // 5. 0.5 second pause before final action (advancing the game)
+                            if (finalAction) {
+                                autoPlayTimeout = setTimeout(finalAction, POST_THAI_SPEECH_DELAY_MS); 
+                            }
+                        });
+                    });
                 });
             });
         }
 
-
-        // --- UI & SCREEN MANAGEMENT (mostly unchanged) ---
+        // --- UI & SCREEN MANAGEMENT ---
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(screen => {
@@ -615,19 +890,21 @@
 
         function createLevelButtons() {
             levelGridEl.innerHTML = '';
-            allVerbData.forEach(data => {
+            allQuizData.forEach(data => {
                 const btn = document.createElement('button');
                 btn.className = 'level-btn';
                 
+                if (data.id >= 11) {
+                    btn.classList.add('level-btn-11-20');
+                }
+                
+                btn.textContent = `ชุด ${data.id}`;
+                
                 const titleSpan = document.createElement('span');
                 titleSpan.className = 'level-btn-title';
-                titleSpan.textContent = `ชุดที่ ${data.id}`;
-                
-                const descSpan = document.createElement('span');
-                descSpan.textContent = data.title;
+                titleSpan.textContent = data.title;
                 
                 btn.appendChild(titleSpan);
-                btn.appendChild(descSpan);
                 btn.setAttribute('data-level', data.id);
                 
                 btn.addEventListener('click', () => {
@@ -635,52 +912,70 @@
                     if (audioContext && audioContext.state === 'suspended') {
                          audioContext.resume();
                     }
-                    selectedSetId = data.id;
+                    selectedLevelId = data.id;
                     setupModeSelection(data.id);
                 });
                 levelGridEl.appendChild(btn);
             });
         }
 
-        function setupModeSelection(setId) {
-            currentVerbSet = allVerbData.find(data => data.id === setId);
-            modeLevelTitleEl.textContent = `ชุดที่ ${setId}: ${currentVerbSet.title}`;
+        function setupModeSelection(levelId) {
+            currentLevelData = allQuizData.find(data => data.id === levelId);
+            modeLevelTitleEl.textContent = `ชุด ${levelId}: ${currentLevelData.title}`;
+            
+            // Apply hard-theme to mode selection screen for visual consistency
+            if (levelId >= 11) {
+                mainContainer.classList.add('hard-theme');
+            } else {
+                mainContainer.classList.remove('hard-theme');
+            }
+            
             showScreen('mode-select-screen');
         }
         
         function updateStatusBar() {
-            levelTitleEl.textContent = `${currentVerbSet.title}`;
-            // Current index is floored to show the current V1 number, total is verb count
-            qCountEl.textContent = `คำที่: ${Math.floor(currentVerbIndex) + 1}/${currentVerbSet.verbs.length}`;
-            scoreEl.textContent = `คะแนน: ${score}`; // Show raw score (2 points per verb)
+            levelTitleEl.textContent = `${currentLevelData.title} (ชุด ${currentLevelData.id})`;
+            qCountEl.textContent = `ข้อ: ${currentQuizIndex}/${currentLevelData.questions.length}`;
+            scoreEl.textContent = `คะแนน: ${score}`;
         }
         
         function updateAutoPlayControls() {
             if (isAutoPlay) {
-                mainContainer.classList.add('hard-theme'); // Apply dark theme for Auto Mode
+                // Auto Play Mode: Show Stop button on the left
+                gameFooterEl.classList.add('auto-mode');
+                autoToggleBtn.style.display = 'flex'; // Changed from 'block' to 'flex' due to new layout
                 autoToggleBtn.classList.add('auto-active');
-                // FIX 1: Split text for auto toggle button
-                autoToggleBtn.innerHTML = '⏸️ หยุดเล่น<span>(Auto)</span>'; 
+                // Change text 
+                autoToggleBtn.innerHTML = '⏸️ หยุดเล่น<span>(Auto)</span>'; // Used innerHTML for span
+                // Change next button text
                 nextBtn.textContent = '⏭️ ข้าม/จบเกม';
             } else {
-                mainContainer.classList.remove('hard-theme');
+                // Normal Mode: Show Start Auto button on the left
+                gameFooterEl.classList.remove('auto-mode');
+                autoToggleBtn.style.display = 'flex'; // Changed from 'block' to 'flex' due to new layout
                 autoToggleBtn.classList.remove('auto-active');
-                 // FIX 1: Split text for auto toggle button
-                autoToggleBtn.innerHTML = '▶️ เริ่มเล่น<span>(Auto)</span>'; 
+                // Change text 
+                autoToggleBtn.innerHTML = '▶️ เริ่มเล่น<span>(Auto)</span>'; // Used innerHTML for span
                 
-                const isEndOfSet = currentVerbIndex >= currentVerbSet.verbs.length - 1 && !isV2Step && isAnswered;
-                nextBtn.textContent = isEndOfSet ? 'กลับหน้าหลัก (Level Selection)' : 'ข้อถัดไป ⏭️';
+                // Keep the next button text standard for normal mode
+                nextBtn.textContent = (currentQuizIndex >= currentLevelData.questions.length && isAnswered) ? 'กลับหน้าหลัก (เลือกชุดคำศัพท์)' : 'ข้อถัดไป ⏭️';
             }
         }
 
 
-        // --- GAME LOGIC (Modified for speech sequence) ---
-        function startGame(setId, autoMode) {
-            currentVerbSet = allVerbData.find(data => data.id === setId); 
+        // --- GAME LOGIC ---
+        function startGame(levelId, autoMode) {
+            currentLevelData = allQuizData.find(data => data.id === levelId); 
             isAutoPlay = autoMode;
-            currentVerbIndex = 0;
+            currentQuizIndex = 0;
             score = 0;
-            isV2Step = true;
+            
+            // Apply theme change
+            if (levelId >= 11) {
+                mainContainer.classList.add('hard-theme');
+            } else {
+                mainContainer.classList.remove('hard-theme');
+            }
             
             showScreen('game-screen');
             updateAutoPlayControls();
@@ -692,7 +987,8 @@
             isAutoPlay = true;
             updateAutoPlayControls();
             
-            if (!isAnswered && currentVerbIndex < currentVerbSet.verbs.length) {
+            // If question is not answered, immediately start the auto timer
+            if (!isAnswered && currentQuizIndex < currentLevelData.questions.length) {
                 window.speechSynthesis.cancel(); 
                 startTimer(); 
             }
@@ -705,19 +1001,17 @@
             clearTimeout(autoPlayTimeout);
             window.speechSynthesis.cancel();
             
-            if (!isAnswered && currentVerbIndex < currentVerbSet.verbs.length) {
+            if (!isAnswered && currentQuizIndex < currentLevelData.questions.length) {
                  choiceButtons.forEach(btn => btn.disabled = false);
                  
-                 thaiPromptEl.innerHTML = `✅ หยุดเล่น! (กลับสู่โหมดปกติ)`;
-                 thaiPromptEl.style.fontSize = '1.2rem';
-                 thaiPromptEl.style.color = 'var(--color-secondary-v1)';
-                 
-                 const currentVerb = currentVerbSet.verbs[currentVerbIndex];
-                 v1PromptEl.textContent = isV2Step ? currentVerb.v1 : currentVerb.v2;
+                 // Show status message 
+                 thaiPromptEl.textContent = `✅ หยุดเล่น! (กลับสู่โหมดปกติ)`;
+                 thaiPromptEl.style.fontSize = '1.8rem';
+                 thaiPromptEl.style.color = 'var(--color-secondary)';
                  
                  setTimeout(() => {
                     if (!isAnswered) {
-                         setupQuestion(currentVerb); 
+                         setupQuestion(currentLevelData.questions[currentQuizIndex]); 
                     }
                  }, 500); 
             }
@@ -730,7 +1024,7 @@
             clearTimeout(autoPlayTimeout);
             window.speechSynthesis.cancel();
             
-            if (currentVerbIndex >= currentVerbSet.verbs.length) {
+            if (currentQuizIndex >= currentLevelData.questions.length) {
                 endGame();
                 return;
             }
@@ -740,76 +1034,44 @@
             updateAutoPlayControls(); 
 
             // Reset UI
-            v1PromptEl.style.color = 'var(--color-primary-v1)';
-            thaiPromptEl.style.color = '#616161';
-
+            thaiPromptEl.style.fontSize = '2rem';
+            thaiPromptEl.style.color = currentLevelData.id >= 11 ? '#F1C40F' : 'var(--color-primary)';
+            thaiPromptEl.classList.remove('revealed-text');
+            
             // Reset buttons
             choiceButtons.forEach(btn => {
                 btn.className = 'choice-button';
                 btn.disabled = isAutoPlay; 
-                btn.classList.remove('hidden-on-reveal');
                 btn.style.display = 'block';
+                btn.style.height = 'auto';
+                btn.style.padding = '1.5rem';
+                btn.style.margin = '0';
             });
             
             updateStatusBar();
-            setupQuestion(currentVerbSet.verbs[currentVerbIndex]);
-        }
-        
-        function getRandomDecoy(correctAnswer, targetKey) {
-            const allChoices = currentVerbSet.verbs.map(v => v[targetKey]);
-            
-            // Filter out the correct answer(s) and parts of the correct answer
-            const correctParts = correctAnswer.split('/').map(p => p.trim());
-            const availableDecoys = allChoices.filter(c => 
-                c.split('/').every(part => !correctParts.includes(part.trim())) && c !== correctAnswer
-            );
-            
-            if (availableDecoys.length === 0) return "went"; 
-            
-            return availableDecoys[Math.floor(Math.random() * availableDecoys.length)];
+            setupQuestion(currentLevelData.questions[currentQuizIndex]);
         }
 
         function setupQuestion(q) {
+            // Re-enable buttons if not in auto-play mode
             choiceButtons.forEach(btn => btn.disabled = isAutoPlay);
             
-            let correctWord, decoyWord, instruction;
+            thaiPromptEl.textContent = q.thai;
             
-            if (isV2Step) {
-                v1PromptEl.textContent = q.v1;
-                correctWord = q.v2;
-                decoyWord = getRandomDecoy(q.v2, 'v2');
-                instruction = `(V1: ${q.thai}) > ทาย **V2** (Past Simple)`;
-                
-                speakText(q.v1, 'en-US');
+            // Speak the V1 prompt immediately (English)
+            speakWithSlash(q.v1, 'en-US', SLASH_SPEECH_DELAY_MS); 
 
-            } else {
-                v1PromptEl.textContent = q.v2; 
-                correctWord = q.v3;
-                decoyWord = getRandomDecoy(q.v3, 'v3');
-                instruction = `(V2: ${q.thai}) > ทาย **V3** (Past Participle)`;
-                
-                speakText(q.v2, 'en-US');
-            }
-            
-            thaiPromptEl.innerHTML = instruction;
-
-            // Ensure the choice is not the same as the decoy
-            while(decoyWord.includes(correctWord) || correctWord.includes(decoyWord) || decoyWord === correctWord) {
-                decoyWord = isV2Step ? getRandomDecoy(q.v2, 'v2') : getRandomDecoy(q.v3, 'v3');
-            }
-
-
-            const choices = [correctWord, decoyWord];
+            const choices = [q.v2, q.decoy];
             choices.sort(() => 0.5 - Math.random());
 
             choiceA.textContent = choices[0];
-            // Check if choice is equal to or contains any part of the correct word (e.g. 'was' is part of 'was/were')
-            const isCorrectA = correctWord.split('/').some(part => choices[0].includes(part.trim())) || choices[0].includes(correctWord);
-            choiceA.setAttribute('data-correct', isCorrectA);
-            
+            choiceA.setAttribute('data-correct', choices[0] === q.v2);
             choiceB.textContent = choices[1];
-            const isCorrectB = correctWord.split('/').some(part => choices[1].includes(part.trim())) || choices[1].includes(correctWord);
-            choiceB.setAttribute('data-correct', isCorrectB);
+            choiceB.setAttribute('data-correct', choices[1] === q.v2);
+            
+            // Update button labels to clarify which verb form is expected
+            choiceA.title = 'V2 (Past Simple)';
+            choiceB.title = 'V2 (Past Simple)';
 
             startTimer();
         }
@@ -818,6 +1080,7 @@
             const durationMs = isAutoPlay ? AUTO_PLAY_TIMER_MS : NORMAL_TIMER_MS;
             const durationSec = durationMs / 1000;
 
+            // Update timer bar transition time dynamically
             timerBarEl.style.transition = 'none';
             timerBarEl.style.width = '100%';
             
@@ -828,9 +1091,15 @@
                 timerBarEl.style.width = '0%';
             }, 50);
 
+            // Set timeout action
             timerTimeout = setTimeout(() => {
                 if (!isAnswered) {
-                    checkAnswer(null, isAutoPlay); 
+                    const currentQ = currentLevelData.questions[currentQuizIndex];
+                    if (isAutoPlay) {
+                        checkAnswer(null, true); 
+                    } else {
+                        checkAnswer(null, false); 
+                    }
                 }
             }, durationMs);
         }
@@ -843,127 +1112,108 @@
             timerBarEl.style.transition = 'none';
             timerBarEl.style.width = '0%'; 
 
-            const currentQ = currentVerbSet.verbs[currentVerbIndex];
-            const correctWord = isV2Step ? currentQ.v2 : currentQ.v3;
-            const correctThaiMeaning = currentQ.thai;
+            const currentQ = currentLevelData.questions[currentQuizIndex];
+            const correctV1 = currentQ.v1;
+            const correctV2 = currentQ.v2;
+            const correctV3 = currentQ.v3;
+            const correctThai = currentQ.thai;
             
             // Determine if the answer is correct
             const isCorrect = isAuto ? true : (selectedBtn && selectedBtn.getAttribute('data-correct') === 'true'); 
 
+            // 1. Stop reading and play tone
+            window.speechSynthesis.cancel();
             if (isCorrect) {
                 playPing();
                 score++;
-                if (!isAuto) {
-                    selectedBtn.classList.add('correct');
-                }
             } else {
                 playFailTone();
-                if (selectedBtn) {
-                     selectedBtn.classList.add('wrong');
-                }
             }
             
+            // 2. Disable all choices
             choiceButtons.forEach(btn => btn.disabled = true);
+            
+            // 4. Set Next Button action
             nextBtn.disabled = false;
             
-            // The function to advance the game (only called in auto mode via speech sequence)
-            const speechEndAction = () => {
-                advanceGame(isCorrect);
-            };
+            // 5. Auto-Play continuation: **NEW LOGIC**
+            if (isAutoPlay) {
+                // Define the function to advance the game, to be called when speech ends
+                const speechEndAction = () => {
+                    // Add a small delay (0.5s) after speech finishes
+                    autoPlayTimeout = setTimeout(() => {
+                        currentQuizIndex++;
+                        nextQuestion();
+                    }, POST_THAI_SPEECH_DELAY_MS); 
+                };
 
-            // Reveal and animate. Pass speechEndAction only if in Auto mode.
-            revealAnswer(correctWord, selectedBtn, isCorrect, correctThaiMeaning, isAuto, isV2Step, isAuto ? speechEndAction : null);
-        }
+                // 3. Reveal and animate, passing the callback for sequential speech
+                revealAnswer(correctV1, correctV2, correctV3, correctThai, selectedBtn, isCorrect, isAuto, speechEndAction);
 
-        function advanceGame(wasCorrect) {
-             clearTimeout(autoPlayTimeout);
-             
-             if (wasCorrect && isV2Step) {
-                 isV2Step = false;
-                 currentVerbIndex = currentVerbIndex; // Stay on the same verb for V3 step
-                 nextQuestion(); 
-             } else {
-                 isV2Step = true;
-                 currentVerbIndex++; // Move to the next verb's V2 step
-                 nextQuestion(); 
-             }
-        }
-        
-        function revealAnswer(correctWord, selectedBtn, isCorrect, correctThaiMeaning, isAuto, isV2, onSpeechEnd = null) {
-            const currentStep = isV2 ? 'V2' (Past Simple) : 'V3' (Past Participle);
-            const fullRevealText = `[${currentStep}: ${correctWord}] (${correctThaiMeaning})`;
-
-            // FIX 2 & 3: Handle speech sequence via specialized function in Auto mode
-            if (isAuto) {
-                handleRevealSpeech(correctWord, correctThaiMeaning, onSpeechEnd);
+            } else {
+                // Normal mode: No speech callback needed for continuation
+                revealAnswer(correctV1, correctV2, correctV3, correctThai, selectedBtn, isCorrect, isAuto, null);
             }
+        }
+
+        // Modified to display all three forms and accept a speech callback
+        function revealAnswer(v1, v2, v3, thaiMeaning, selectedBtn, isCorrect, isAuto, onSpeechEnd = null) {
+            const fullRevealText = `V1: ${v1} | V2: ${v2} | V3: ${v3} (${thaiMeaning})`;
+            
+            // Sequential speech: V3 -> V2 -> V1 -> Thai
+            handleRevealSpeech(v1, v2, v3, thaiMeaning, onSpeechEnd);
             
             choiceButtons.forEach(btn => {
-                const isBtnCorrect = correctWord.split('/').some(part => btn.textContent.includes(part.trim())) || btn.textContent.includes(correctWord);
+                btn.classList.remove('wrong', 'correct');
                 
-                if (!isBtnCorrect) {
-                    btn.classList.add('hidden-on-reveal');
-                }
-                
-                // Highlight the true correct answer if not already done by user click
-                if (isBtnCorrect && !btn.classList.contains('correct')) {
+                // Check against V2
+                if (btn.textContent.includes(v2)) {
                     btn.classList.add('correct');
+                } else {
+                    btn.classList.add('hidden-on-reveal');
                 }
             });
             
             let statusPrefix = '';
             if (isCorrect) { 
-                 statusPrefix = `✅ ${currentStep} ถูกต้อง: `;
-                 v1PromptEl.style.color = 'var(--color-correct)';
+                 statusPrefix = '✅ ถูกต้อง: ';
+                 thaiPromptEl.style.color = 'var(--color-correct)';
             } else {
-                 statusPrefix = selectedBtn ? `❌ ${currentStep} ผิด: ` : `⏰ ${currentStep} หมดเวลา: `;
-                 v1PromptEl.style.color = 'var(--color-wrong)';
+                 statusPrefix = selectedBtn ? '❌ ผิด: ' : '⏰ หมดเวลา: ';
+                 thaiPromptEl.style.color = 'var(--color-wrong)';
             }
 
-            thaiPromptEl.innerHTML = statusPrefix + fullRevealText;
-            thaiPromptEl.style.fontSize = '1.4rem'; 
-            
-            // Update V1/V2 prompt area to show the question (for V2 step) or V2 (for V3 step)
-            // But keep the prompt visually on screen for context.
-            if(isV2) {
-                v1PromptEl.textContent = currentVerbSet.verbs[currentVerbIndex].v1;
-            } else {
-                v1PromptEl.textContent = currentVerbSet.verbs[currentVerbIndex].v2;
-            }
+            thaiPromptEl.textContent = statusPrefix + fullRevealText;
+            thaiPromptEl.classList.add('revealed-text');
+            thaiPromptEl.style.fontSize = ''; 
 
             updateStatusBar();
-            updateAutoPlayControls(); 
         }
 
 
         function endGame() {
+            // Ensure AutoPlay is stopped at the end of the game
             isAutoPlay = false;
             clearTimeout(autoPlayTimeout);
-            mainContainer.classList.remove('hard-theme');
             
-            levelTitleEl.textContent = `จบชุดคำศัพท์!`;
+            levelTitleEl.textContent = `จบชุดคำศัพท์ ${currentLevelData.id}!`;
             qCountEl.textContent = '';
             
-            const finalScoreVerbs = currentVerbSet.verbs.length;
-            const finalScorePoints = score;
-            const correctVerbs = finalScorePoints / 2; 
-            
-            v1PromptEl.textContent = `คุณทำได้ ${correctVerbs}/${finalScoreVerbs} คำ`;
-            v1PromptEl.style.fontSize = '2.5rem';
-            v1PromptEl.style.color = correctVerbs >= (finalScoreVerbs * 0.8) ? 'var(--color-correct)' : 'var(--color-wrong)';
-            
-            thaiPromptEl.innerHTML = `คะแนนรวม: ${finalScorePoints} คะแนน (2 คะแนนต่อ 1 คำศัพท์)`;
-            thaiPromptEl.style.color = '#616161';
+            thaiPromptEl.textContent = `คุณทำได้ ${score}/${currentLevelData.questions.length} ข้อ`;
+            thaiPromptEl.style.fontSize = '2.5rem';
+            thaiPromptEl.style.color = score >= 8 ? 'var(--color-correct)' : 'var(--color-wrong)';
+            thaiPromptEl.classList.remove('revealed-text');
+            thaiPromptEl.classList.add('revealed-text'); 
 
             choiceButtons.forEach(btn => btn.style.display = 'none');
             
-            nextBtn.textContent = 'กลับหน้าหลัก (Level Selection)';
+            nextBtn.textContent = 'กลับหน้าหลัก (เลือกชุดคำศัพท์)';
             nextBtn.disabled = false;
             
             updateAutoPlayControls();
         }
 
-        // --- EVENT LISTENERS (unchanged) ---
+        // --- EVENT LISTENERS ---
         function handleChoiceClick(e) {
             if (audioContext && audioContext.state === 'suspended') {
                  audioContext.resume();
@@ -973,13 +1223,15 @@
             }
         }
 
+        // Mode Selection Handlers
         startNormalBtn.addEventListener('click', () => {
-            startGame(selectedSetId, false);
+            startGame(selectedLevelId, false);
         });
         startAutoBtn.addEventListener('click', () => {
-            startGame(selectedSetId, true);
+            startGame(selectedLevelId, true);
         });
         backToLevelBtn.addEventListener('click', () => {
+             mainContainer.classList.remove('hard-theme');
              showScreen('level-select-screen');
         });
 
@@ -990,25 +1242,20 @@
             window.speechSynthesis.cancel();
             clearTimeout(autoPlayTimeout); 
             
-            const totalVerbs = currentVerbSet.verbs.length;
-
-            if (currentVerbIndex >= totalVerbs) {
+            if (currentQuizIndex >= currentLevelData.questions.length) {
+                // End game / Back to home
                 choiceButtons.forEach(btn => btn.style.display = 'block');
+                mainContainer.classList.remove('hard-theme');
                 isAutoPlay = false;
                 showScreen('level-select-screen');
             } else {
-                const currentQ = currentVerbSet.verbs[currentVerbIndex];
-                const correctWord = isV2Step ? currentQ.v2 : currentQ.v3;
-                
-                const isCorrect = choiceButtons.some(btn => 
-                    (correctWord.split('/').some(part => btn.textContent.includes(part.trim())) || btn.textContent.includes(correctWord)) && 
-                    btn.classList.contains('correct')
-                );
-                
-                advanceGame(isCorrect);
+                // Normal mode advance / Auto mode skip
+                currentQuizIndex++;
+                nextQuestion();
             }
         });
         
+        // Auto Play Toggle Button Handler
         autoToggleBtn.addEventListener('click', () => {
             if (isAutoPlay) {
                 stopAutoPlay();
