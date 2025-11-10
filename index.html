@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irregular Verb Challenge (กริยา 3 ช่อง) V4</title>
+    <title>Irregular Verb Challenge (กริยา 3 ช่อง)</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         /* Global & Default (Level 1-10) Theme */
         :root {
-            --color-primary: #FF7043; /* Bright Orange */
-            --color-secondary: #42A5F5; /* Blue */
-            --color-correct: #66BB6A; /* Green */
-            --color-wrong: #EF5350; /* Red */
-            --color-bg: #F4F7F9;
+            --color-primary: #023D54; /* น้ำเงินเข้ม */
+            --color-secondary: #0A5735; /* เขียวเข้ม */
+            --color-correct: #94D0A5; /* เขียวอ่อน */
+            --color-wrong: #F9F566; /* เหลือง */
+            --color-bg: #ECF0F1; /* เทาอ่อน */
             --color-card: #FFFFFF;
             --color-text-dark: #263238;
             --color-text-light: #FFFFFF;
@@ -20,24 +20,25 @@
         
         /* Hard/Expert Theme (Level 11-20) */
         .container.hard-theme {
-            background-color: #2C3E50; 
+            background-color: #022A3C; /* Darker Blue for hard theme background */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             color: #ECF0F1; 
         }
         .container.hard-theme header {
-            background-color: #34495E; 
-            color: #F1C40F; 
+            background-color: #011E2B; /* Even darker blue for header */
+            color: #F9F566; /* Yellow for header text */
         }
-        .container.hard-theme header h1 { color: #F1C40F; }
+        .container.hard-theme header h1 { color: #F9F566; }
 
         /* Hard Theme Mode Selection Buttons */
         .container.hard-theme .mode-btn {
-            background-color: #7F8C8D; /* Dark Gray for modes */
-            box-shadow: 0 5px 0 #6A7A7B;
+            background-color: #0A5735; /* Dark Green for modes */
+            box-shadow: 0 5px 0 #073D26;
         }
         .container.hard-theme .mode-btn:nth-child(2) {
-            background-color: #F39C12; /* Gold for auto mode */
-            box-shadow: 0 5px 0 #D4AC0D;
+            background-color: #F9F566; /* Yellow for auto mode */
+            box-shadow: 0 5px 0 #E3E05C;
+            color: var(--color-text-dark); /* Ensure text is dark on yellow */
         }
         .container.hard-theme .mode-btn:active {
             transform: translateY(2px);
@@ -47,30 +48,31 @@
 
         /* Hard Theme Game Screen Styles */
         .container.hard-theme #prompt-area {
-            background-color: #34495E;
-            border: 3px solid #F1C40F; 
+            background-color: #0A5735; /* Dark Green */
+            border: 3px solid #94D0A5; /* Light Green border */
         }
-        .container.hard-theme #thai-prompt { color: #F1C40F; }
-        .container.hard-theme #timer-bar-container { background-color: #34495E; }
-        .container.hard-theme #timer-bar { background-color: #F39C12; }
+        .container.hard-theme #thai-prompt { color: #F9F566; } /* Yellow prompt text */
+        .container.hard-theme #timer-bar-container { background-color: #073D26; } /* Darker green for timer background */
+        .container.hard-theme #timer-bar { background-color: #F9F566; } /* Yellow timer bar */
         .container.hard-theme .choice-button {
-            background-color: #7F8C8D; 
-            box-shadow: 0 5px 0 #6A7A7B;
+            background-color: #0A5735; /* Dark Green choice buttons */
+            box-shadow: 0 5px 0 #073D26;
         }
         .container.hard-theme #next-btn {
-            background-color: #F1C40F; 
-            box-shadow: 0 4px 0 #D4AC0D;
+            background-color: #94D0A5; /* Light Green next button */
+            box-shadow: 0 4px 0 #7BAA8C;
             color: var(--color-text-dark);
         }
         
         .container.hard-theme #auto-toggle-btn {
-            background-color: #27AE60; /* Green for START Auto */
-            box-shadow: 0 4px 0 #20934F;
-            color: var(--color-text-light);
+            background-color: #94D0A5; /* Light Green for START Auto */
+            box-shadow: 0 4px 0 #7BAA8C;
+            color: var(--color-text-dark);
         }
         .container.hard-theme #auto-toggle-btn.auto-active {
-            background-color: #E74C3C; /* Red for STOP Auto */
-            box-shadow: 0 4px 0 #C0392B;
+            background-color: #F9F566; /* Yellow for STOP Auto */
+            box-shadow: 0 4px 0 #E3E05C;
+            color: var(--color-text-dark);
         }
         /* --- END HARD THEME --- */
 
@@ -119,6 +121,8 @@
             font-size: 0.9rem;
             margin: 0.2rem 0 0 0;
             font-weight: 300;
+            /* Removed the V4 text, so this can be hidden or repurposed if needed */
+            display: none; 
         }
 
         /* Screen Management */
@@ -149,19 +153,19 @@
             font-size: 1.4rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 0 #3188d6;
+            box-shadow: 0 4px 0 #073D26; /* Darker green shadow */
             transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
         }
         .level-btn.level-btn-11-20 {
-            background-color: #9B59B6; 
-            box-shadow: 0 4px 0 #8E44AD;
+            background-color: var(--color-primary); /* Use primary color for hard levels */
+            box-shadow: 0 4px 0 #022A3C; /* Darker primary shadow */
         }
         .level-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #3188d6;
+            box-shadow: 0 2px 0 #073D26;
         }
         .level-btn.level-btn-11-20:active {
-            box-shadow: 0 2px 0 #8E44AD;
+            box-shadow: 0 2px 0 #022A3C;
         }
         .level-btn-title {
             font-size: 0.8rem;
@@ -191,16 +195,17 @@
             font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 0 #3188d6;
+            box-shadow: 0 5px 0 #073D26;
             transition: transform 0.1s, box-shadow 0.1s;
         }
         .mode-btn:nth-child(2) {
-            background-color: #FBC02D; /* Yellow/Gold for Auto */
-            box-shadow: 0 5px 0 #F9A825;
+            background-color: var(--color-wrong); /* Yellow for Auto */
+            box-shadow: 0 5px 0 #E3E05C; /* Darker yellow shadow */
+            color: var(--color-text-dark); /* Text color for yellow button */
         }
         .mode-btn:active {
             transform: translateY(3px);
-            box-shadow: 0 2px 0 #3188d6;
+            box-shadow: 0 2px 0 #073D26;
         }
         
         /* --- Game Screen --- */
@@ -267,7 +272,7 @@
             justify-content: center; 
         }
         .choice-button {
-            background-color: #3498DB;
+            background-color: var(--color-secondary); /* Use secondary for choice buttons */
             color: var(--color-text-light);
             border: none;
             padding: 1.5rem;
@@ -275,17 +280,19 @@
             font-size: 1.6rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 0 #2980B9;
+            box-shadow: 0 5px 0 #073D26; /* Darker secondary shadow */
             transition: all 0.2s ease-in-out;
         }
         .choice-button.correct {
             background-color: var(--color-correct);
-            box-shadow: 0 5px 0 #388E3C;
+            box-shadow: 0 5px 0 #7BAA8C; /* Darker correct shadow */
+            color: var(--color-text-dark); /* Ensure text is dark on light green */
             font-size: 2.5rem; 
         }
         .choice-button.wrong {
             background-color: var(--color-wrong);
-            box-shadow: 0 5px 0 #C62828;
+            box-shadow: 0 5px 0 #E3E05C; /* Darker wrong shadow */
+            color: var(--color-text-dark); /* Ensure text is dark on yellow */
         }
         .choice-button.hidden-on-reveal {
             opacity: 0;
@@ -324,24 +331,25 @@
         #next-btn {
             background-color: var(--color-primary);
             color: var(--color-text-light);
-            box-shadow: 0 4px 0 #E64A19;
+            box-shadow: 0 4px 0 #022A3C; /* Darker primary shadow */
             /* width and flex is set in auto-mode class */
         }
         #next-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #E64A19;
+            box-shadow: 0 2px 0 #022A3C;
         }
         
         /* Auto Toggle Button */
         #auto-toggle-btn {
             background-color: var(--color-correct); 
-            color: var(--color-text-light);
-            box-shadow: 0 4px 0 #388E3C;
+            color: var(--color-text-dark); /* Dark text on light green */
+            box-shadow: 0 4px 0 #7BAA8C; /* Darker correct shadow */
             width: 40%; /* Default width */
         }
         #auto-toggle-btn.auto-active {
-            background-color: var(--color-wrong); /* Red for STOP Auto */
-            box-shadow: 0 4px 0 #C62828;
+            background-color: var(--color-wrong); /* Yellow for STOP Auto */
+            box-shadow: 0 4px 0 #E3E05C; /* Darker wrong shadow */
+            color: var(--color-text-dark); /* Dark text on yellow */
         }
         #auto-toggle-btn:active {
             transform: translateY(2px);
@@ -371,7 +379,7 @@
     <div class="container" id="main-container">
         <header>
             <h1>Irregular Verb Challenge (กริยา 3 ช่อง)</h1>
-            <p>V4: V1 → V2 → V3</p>
+            <p></p> 
         </header>
 
         <div id="level-select-screen" class="screen active">
@@ -395,7 +403,7 @@
                     <span style="display:block; font-size: 0.8em; font-weight: 400;">เฉลยอัตโนมัติ, เวลา 3 วินาที</span>
                 </button>
             </div>
-            <button id="back-to-level-btn" class="mode-btn" style="width: 80%; background-color: #B0BEC5; box-shadow: 0 5px 0 #90A4AE;">
+            <button id="back-to-level-btn" class="mode-btn" style="width: 80%; background-color: #B0BEC5; box-shadow: 0 5px 0 #90A4AE; color: var(--color-text-dark);">
                 🔙 กลับไปหน้าเลือกชุดคำศัพท์
             </button>
         </div>
@@ -1065,7 +1073,7 @@
 
             // Reset UI
             thaiPromptEl.style.fontSize = '2.5rem';
-            thaiPromptEl.style.color = currentLevelData.id >= 11 ? '#F1C40F' : 'var(--color-primary)';
+            thaiPromptEl.style.color = currentLevelData.id >= 11 ? 'var(--color-wrong)' : 'var(--color-primary)'; /* Changed to var(--color-wrong) for hard theme prompt */
             thaiPromptEl.classList.remove('revealed-text');
             
             // Reset buttons
