@@ -8,71 +8,75 @@
     <style>
         /* Global & Default (Level 1-10) Theme */
         :root {
-            --color-primary: #023D54; /* น้ำเงินเข้ม */
-            --color-secondary: #0A5735; /* เขียวเข้ม */
-            --color-correct: #94D0A5; /* เขียวอ่อน */
-            --color-wrong: #F9F566; /* เหลือง */
-            --color-bg: #ECF0F1; /* เทาอ่อน */
+            --color-primary: #F88378; /* ส้มอมชมพู */
+            --color-secondary: #FBCEB1; /* พีช */
+            --color-correct: #AFD9AE; /* เขียวมิ้นต์ */
+            --color-wrong: #43B3AE; /* เขียวเทอร์ควอยซ์ */
+            --color-bg: #F7F9FC; /* พื้นหลังอ่อน */
             --color-card: #FFFFFF;
-            --color-text-dark: #263238;
+            --color-text-dark: #333333; /* เข้มขึ้นเพื่อให้ตัดกับสีอ่อน */
             --color-text-light: #FFFFFF;
         }
         
-        /* Hard/Expert Theme (Level 11-20) */
+        /* Hard/Expert Theme (Level 11-20) - Adjusted to be darker but still in a pleasing tone */
         .container.hard-theme {
-            background-color: #022A3C; /* Darker Blue for hard theme background */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            color: #ECF0F1; 
+            background-color: #F88378; /* Primary color for hard theme background */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            color: var(--color-text-dark); 
         }
         .container.hard-theme header {
-            background-color: #011E2B; /* Even darker blue for header */
-            color: #F9F566; /* Yellow for header text */
+            background-color: #E66F64; /* Darker primary for header */
+            color: var(--color-text-light); 
         }
-        .container.hard-theme header h1 { color: #F9F566; }
+        .container.hard-theme header h1 { color: var(--color-text-light); }
 
         /* Hard Theme Mode Selection Buttons */
         .container.hard-theme .mode-btn {
-            background-color: #0A5735; /* Dark Green for modes */
-            box-shadow: 0 5px 0 #073D26;
+            background-color: #43B3AE; /* Turquoise for modes */
+            box-shadow: 0 5px 0 #328783;
+            color: var(--color-text-light);
         }
         .container.hard-theme .mode-btn:nth-child(2) {
-            background-color: #F9F566; /* Yellow for auto mode */
-            box-shadow: 0 5px 0 #E3E05C;
-            color: var(--color-text-dark); /* Ensure text is dark on yellow */
+            background-color: #FBCEB1; /* Peach for auto mode */
+            box-shadow: 0 5px 0 #E3B290;
+            color: var(--color-text-dark); 
         }
         .container.hard-theme .mode-btn:active {
             transform: translateY(2px);
             box-shadow: 0 2px 0;
         }
 
-
         /* Hard Theme Game Screen Styles */
         .container.hard-theme #prompt-area {
-            background-color: #0A5735; /* Dark Green */
-            border: 3px solid #94D0A5; /* Light Green border */
+            background-color: var(--color-bg); 
+            border: 3px solid var(--color-primary); 
+            color: var(--color-text-dark);
         }
-        .container.hard-theme #thai-prompt { color: #F9F566; } /* Yellow prompt text */
-        .container.hard-theme #timer-bar-container { background-color: #073D26; } /* Darker green for timer background */
-        .container.hard-theme #timer-bar { background-color: #F9F566; } /* Yellow timer bar */
+        .container.hard-theme #thai-prompt { 
+            color: var(--color-primary); 
+        } 
+        .container.hard-theme #timer-bar-container { background-color: #E0E0E0; } /* Lighter gray */
+        .container.hard-theme #timer-bar { background-color: #AFD9AE; } /* Mint green timer bar */
         .container.hard-theme .choice-button {
-            background-color: #0A5735; /* Dark Green choice buttons */
-            box-shadow: 0 5px 0 #073D26;
+            background-color: #43B3AE; /* Turquoise choice buttons */
+            box-shadow: 0 5px 0 #328783;
+            color: var(--color-text-light);
         }
         .container.hard-theme #next-btn {
-            background-color: #94D0A5; /* Light Green next button */
-            box-shadow: 0 4px 0 #7BAA8C;
+            background-color: #FBCEB1; /* Peach next button */
+            box-shadow: 0 4px 0 #E3B290;
             color: var(--color-text-dark);
         }
         
         .container.hard-theme #auto-toggle-btn {
-            background-color: #94D0A5; /* Light Green for START Auto */
-            box-shadow: 0 4px 0 #7BAA8C;
+            background-color: #AFD9AE; /* Mint Green for START Auto */
+            box-shadow: 0 4px 0 #8CB48C;
             color: var(--color-text-dark);
         }
         .container.hard-theme #auto-toggle-btn.auto-active {
-            background-color: #F9F566; /* Yellow for STOP Auto */
-            box-shadow: 0 4px 0 #E3E05C;
-            color: var(--color-text-dark);
+            background-color: #F88378; /* Primary Red for STOP Auto */
+            box-shadow: 0 4px 0 #E66F64;
+            color: var(--color-text-light);
         }
         /* --- END HARD THEME --- */
 
@@ -95,7 +99,7 @@
             max-width: 500px;
             box-sizing: border-box;
             background-color: var(--color-card);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -109,19 +113,19 @@
             background-color: var(--color-primary);
             color: var(--color-text-light);
             padding: 1.5rem 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 1rem;
             transition: background-color 0.5s;
         }
         header h1 {
             font-size: 1.8rem;
             margin: 0;
+            color: var(--color-text-light);
         }
         header p {
             font-size: 0.9rem;
             margin: 0.2rem 0 0 0;
             font-weight: 300;
-            /* Removed the V4 text, so this can be hidden or repurposed if needed */
             display: none; 
         }
 
@@ -145,27 +149,28 @@
             padding: 1rem 0;
         }
         .level-btn {
-            background-color: var(--color-secondary); 
-            color: var(--color-text-light);
+            background-color: var(--color-correct); 
+            color: var(--color-text-dark);
             border: none;
             padding: 1.5rem 0.5rem;
             border-radius: 12px;
             font-size: 1.4rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 0 #073D26; /* Darker green shadow */
+            box-shadow: 0 4px 0 #8CB48C; /* Darker green shadow */
             transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
         }
         .level-btn.level-btn-11-20 {
             background-color: var(--color-primary); /* Use primary color for hard levels */
-            box-shadow: 0 4px 0 #022A3C; /* Darker primary shadow */
+            color: var(--color-text-light);
+            box-shadow: 0 4px 0 #E66F64; /* Darker primary shadow */
         }
         .level-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #073D26;
+            box-shadow: 0 2px 0 #8CB48C;
         }
         .level-btn.level-btn-11-20:active {
-            box-shadow: 0 2px 0 #022A3C;
+            box-shadow: 0 2px 0 #E66F64;
         }
         .level-btn-title {
             font-size: 0.8rem;
@@ -187,25 +192,30 @@
             width: 80%;
         }
         .mode-btn {
-            background-color: var(--color-secondary);
-            color: var(--color-text-light);
+            background-color: var(--color-correct);
+            color: var(--color-text-dark);
             border: none;
             padding: 1.5rem;
             border-radius: 15px;
             font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 0 #073D26;
+            box-shadow: 0 5px 0 #8CB48C;
             transition: transform 0.1s, box-shadow 0.1s;
         }
         .mode-btn:nth-child(2) {
-            background-color: var(--color-wrong); /* Yellow for Auto */
-            box-shadow: 0 5px 0 #E3E05C; /* Darker yellow shadow */
-            color: var(--color-text-dark); /* Text color for yellow button */
+            background-color: var(--color-wrong); /* Turquoise for Auto */
+            box-shadow: 0 5px 0 #328783; /* Darker turquoise shadow */
+            color: var(--color-text-light); /* Text color for turquoise button */
         }
         .mode-btn:active {
             transform: translateY(3px);
-            box-shadow: 0 2px 0 #073D26;
+            box-shadow: 0 2px 0 #8CB48C;
+        }
+        #back-to-level-btn {
+            background-color: #B0BEC5 !important; 
+            box-shadow: 0 5px 0 #90A4AE !important; 
+            color: var(--color-text-dark) !important;
         }
         
         /* --- Game Screen --- */
@@ -228,7 +238,7 @@
 
 
         #prompt-area {
-            background-color: var(--color-bg);
+            background-color: var(--color-secondary); /* Use secondary for prompt background */
             border: 3px solid var(--color-primary);
             border-radius: 20px;
             padding: 2rem 1rem;
@@ -259,8 +269,8 @@
         #timer-bar {
             width: 100%;
             height: 100%;
-            background-color: var(--color-secondary);
-            transition: width 5s linear; /* Default to 5s */
+            background-color: var(--color-primary); /* Primary color for timer */
+            transition: width 5s linear; 
         }
 
         /* Choice Buttons */
@@ -272,37 +282,40 @@
             justify-content: center; 
         }
         .choice-button {
-            background-color: var(--color-secondary); /* Use secondary for choice buttons */
-            color: var(--color-text-light);
+            background-color: var(--color-secondary); 
+            color: var(--color-text-dark); /* Dark text on light button */
             border: none;
             padding: 1.5rem;
             border-radius: 15px; 
             font-size: 1.6rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 0 #073D26; /* Darker secondary shadow */
-            transition: all 0.2s ease-in-out;
+            box-shadow: 0 5px 0 #E3B290; /* Darker secondary shadow */
+            transition: all 0.2s ease-in-out, font-size 0.3s, transform 0.3s;
         }
+        /* State for a correctly answered choice button (V2 or V3) */
         .choice-button.correct {
             background-color: var(--color-correct);
-            box-shadow: 0 5px 0 #7BAA8C; /* Darker correct shadow */
-            color: var(--color-text-dark); /* Ensure text is dark on light green */
-            font-size: 2.5rem; 
+            box-shadow: 0 5px 0 #8CB48C; 
+            color: var(--color-text-dark); 
+            font-size: 2.5rem; /* Larger font for correct answer */
+            transform: scale(1.05); /* Slightly bigger */
         }
+        /* State for an incorrectly answered choice button */
         .choice-button.wrong {
             background-color: var(--color-wrong);
-            box-shadow: 0 5px 0 #E3E05C; /* Darker wrong shadow */
-            color: var(--color-text-dark); /* Ensure text is dark on yellow */
+            box-shadow: 0 5px 0 #328783; 
+            color: var(--color-text-light); 
         }
-        .choice-button.hidden-on-reveal {
-            opacity: 0;
-            height: 0;
-            padding: 0;
-            margin: 0;
-            transition: opacity 0.3s, height 0.3s, padding 0.3s, margin 0.3s;
+        /* State for choices that are not the focus (e.g., incorrect V2/V3 options when correct is highlighted) */
+        .choice-button.dimmed {
+            opacity: 0.5;
+            transform: scale(0.95);
+            font-size: 1.6rem; /* Back to normal size */
+            box-shadow: none;
         }
         
-        /* Footer/Control - FIX: Equal height and text split */
+        /* Footer/Control */
         #game-footer {
             display: flex;
             justify-content: space-between;
@@ -313,13 +326,12 @@
         }
 
         #game-footer button {
-            /* Fix: Enforce equal height and use flex for centering */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 60px; /* Target height */
-            padding: 0.5rem 0.5rem; /* Adjust padding to fit the height */
+            height: 60px; 
+            padding: 0.5rem 0.5rem; 
             border: none;
             border-radius: 50px;
             font-size: 1.2rem;
@@ -331,25 +343,24 @@
         #next-btn {
             background-color: var(--color-primary);
             color: var(--color-text-light);
-            box-shadow: 0 4px 0 #022A3C; /* Darker primary shadow */
-            /* width and flex is set in auto-mode class */
+            box-shadow: 0 4px 0 #E66F64; 
         }
         #next-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 #022A3C;
+            box-shadow: 0 2px 0 #E66F64;
         }
         
         /* Auto Toggle Button */
         #auto-toggle-btn {
             background-color: var(--color-correct); 
-            color: var(--color-text-dark); /* Dark text on light green */
-            box-shadow: 0 4px 0 #7BAA8C; /* Darker correct shadow */
-            width: 40%; /* Default width */
+            color: var(--color-text-dark); 
+            box-shadow: 0 4px 0 #8CB48C; 
+            width: 40%; 
         }
         #auto-toggle-btn.auto-active {
-            background-color: var(--color-wrong); /* Yellow for STOP Auto */
-            box-shadow: 0 4px 0 #E3E05C; /* Darker wrong shadow */
-            color: var(--color-text-dark); /* Dark text on yellow */
+            background-color: var(--color-primary); /* Primary red for STOP Auto */
+            box-shadow: 0 4px 0 #E66F64; 
+            color: var(--color-text-light); 
         }
         #auto-toggle-btn:active {
             transform: translateY(2px);
@@ -357,7 +368,6 @@
         }
 
         #auto-toggle-btn span {
-            /* Forces a new line for the (Auto) part */
             display: block; 
             font-size: 0.8em;
             font-weight: 400;
@@ -366,7 +376,7 @@
 
         /* Adjust button widths when auto-toggle is visible */
         #game-footer #next-btn {
-             width: 100%; /* Default when auto button is hidden/inactive */
+             width: 100%; 
         }
         #game-footer.auto-mode #next-btn {
             width: 60%;
@@ -403,7 +413,7 @@
                     <span style="display:block; font-size: 0.8em; font-weight: 400;">เฉลยอัตโนมัติ, เวลา 3 วินาที</span>
                 </button>
             </div>
-            <button id="back-to-level-btn" class="mode-btn" style="width: 80%; background-color: #B0BEC5; box-shadow: 0 5px 0 #90A4AE; color: var(--color-text-dark);">
+            <button id="back-to-level-btn" class="mode-btn" style="width: 80%;">
                 🔙 กลับไปหน้าเลือกชุดคำศัพท์
             </button>
         </div>
@@ -676,14 +686,14 @@
                 { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "sink" },
                 { thai: "เกิด", v1: "bear", v2: "bore", v3: "born/borne", decoy: "bite" },
             ]},
-        ].filter(set => set.questions.length > 0); // Filter out sets that might become empty
+        ].filter(set => set.questions.length > 0); 
 
 
         // --- CONSTANTS ---
         const NORMAL_TIMER_MS = 5000;
         const AUTO_PLAY_TIMER_MS = 3000; 
-        const POST_THAI_SPEECH_DELAY_MS = 500; // FIX: 0.5s pause after Thai speech
-        const SLASH_SPEECH_DELAY_MS = 250; // FIX: 0.25s pause between slash words
+        const POST_THAI_SPEECH_DELAY_MS = 500; 
+        const SLASH_SPEECH_DELAY_MS = 250; 
 
         // --- ELEMENTS ---
         const mainContainer = document.getElementById('main-container');
@@ -716,13 +726,13 @@
         let score = 0;
         let timerTimeout = null;
         let autoPlayTimeout = null;
-        let isAnswered = false; // Is the current step answered?
+        let isAnswered = false; 
         let isAutoPlay = false; 
         let isSpeaking = false;
         let voices = [];
         let audioContext;
-        let currentQuestion = null; // The full question object
-        let currentAnswerStep = 'V2'; // State: 'V2' or 'V3' or 'REVEAL'
+        let currentQuestion = null; 
+        let currentAnswerStep = 'V2'; 
 
         // --- CORE FUNCTIONS (AUDIO TONE) ---
         function initAudioContext() {
@@ -815,7 +825,7 @@
         }
 
         /**
-         * FIX 3: Speak English words with a slash (/) with a delay between them.
+         * Speak English words with a slash (/) with a delay between them.
          */
         function speakWithSlash(text, lang, partDelay, onEnd = null) {
             if(text.indexOf('/') === -1) {
@@ -850,7 +860,7 @@
                     isSpeaking = false;
                     partIndex++;
                     if (partIndex < parts.length) {
-                        setTimeout(speakNextPart, partDelay); // 0.25s delay
+                        setTimeout(speakNextPart, partDelay); 
                     } else if (onEnd) {
                         onEnd();
                     }
@@ -867,7 +877,7 @@
 
 
         /**
-         * FIX 2: Handle the sequential speech (V1 -> V2 -> V3 -> Thai -> Pause) for final reveal.
+         * Handle the sequential speech (V1 -> V2 -> V3 -> Thai -> Pause) for final reveal.
          */
         function handleFinalRevealSpeech(v1, v2, v3, thaiMeaning, finalAction) {
             window.speechSynthesis.cancel();
@@ -897,12 +907,10 @@
          */
         function getV3Decoy(correctV3, questions) {
             let decoyV3 = correctV3;
-            // Try up to 5 times to find a V3 that is not the correct V3
             for (let i = 0; i < 5; i++) {
                 const randomQ = questions[Math.floor(Math.random() * questions.length)];
                 const potentialDecoy = randomQ.v3;
                 
-                // Compare normalized forms
                 const correctNorm = correctV3.split('/')[0].trim().toLowerCase();
                 const potentialNorm = potentialDecoy.split('/')[0].trim().toLowerCase();
                 
@@ -910,7 +918,6 @@
                     return potentialDecoy;
                 }
             }
-            // Fallback: use the current question's V2 as a decoy
             return questions[currentQuizIndex].v2; 
         }
 
@@ -962,7 +969,6 @@
             currentLevelData = allQuizData.find(data => data.id === levelId);
             modeLevelTitleEl.textContent = `ชุด ${levelId}: ${currentLevelData.title}`;
             
-            // Apply hard-theme to mode selection screen for visual consistency
             if (levelId >= 11) {
                 mainContainer.classList.add('hard-theme');
             } else {
@@ -980,14 +986,12 @@
         
         function updateAutoPlayControls() {
             if (isAutoPlay) {
-                // Auto Play Mode: Show Stop button on the left
                 gameFooterEl.classList.add('auto-mode');
                 autoToggleBtn.style.display = 'flex'; 
                 autoToggleBtn.classList.add('auto-active');
                 autoToggleBtn.innerHTML = '⏸️ หยุดเล่น<span>(Auto)</span>'; 
                 nextBtn.textContent = '⏭️ ข้าม/จบเกม';
             } else {
-                // Normal Mode: Show Start Auto button on the left
                 gameFooterEl.classList.remove('auto-mode');
                 autoToggleBtn.style.display = 'flex'; 
                 autoToggleBtn.classList.remove('auto-active');
@@ -1004,9 +1008,8 @@
             isAutoPlay = autoMode;
             currentQuizIndex = 0;
             score = 0;
-            currentAnswerStep = 'V2'; // Always start with V2
+            currentAnswerStep = 'V2'; 
             
-            // Apply theme change
             if (levelId >= 11) {
                 mainContainer.classList.add('hard-theme');
             } else {
@@ -1023,7 +1026,6 @@
             isAutoPlay = true;
             updateAutoPlayControls();
             
-            // If question is not answered, immediately start the auto timer
             if (!isAnswered && currentQuizIndex < currentLevelData.questions.length) {
                 window.speechSynthesis.cancel(); 
                 startTimer(); 
@@ -1040,10 +1042,9 @@
             if (!isAnswered && currentQuizIndex < currentLevelData.questions.length) {
                  choiceButtons.forEach(btn => btn.disabled = false);
                  
-                 // Show status message 
                  thaiPromptEl.textContent = `✅ หยุดเล่น! (กลับสู่โหมดปกติ)`;
                  thaiPromptEl.style.fontSize = '1.8rem';
-                 thaiPromptEl.style.color = 'var(--color-secondary)';
+                 thaiPromptEl.style.color = 'var(--color-correct)';
                  
                  setTimeout(() => {
                     if (!isAnswered) {
@@ -1066,24 +1067,19 @@
             }
             
             currentQuestion = currentLevelData.questions[currentQuizIndex];
-            currentAnswerStep = 'V2'; // Reset to V2 step for the new question
+            currentAnswerStep = 'V2'; 
             isAnswered = false;
             nextBtn.disabled = true;
             updateAutoPlayControls(); 
 
             // Reset UI
             thaiPromptEl.style.fontSize = '2.5rem';
-            thaiPromptEl.style.color = currentLevelData.id >= 11 ? 'var(--color-wrong)' : 'var(--color-primary)'; /* Changed to var(--color-wrong) for hard theme prompt */
-            thaiPromptEl.classList.remove('revealed-text');
+            thaiPromptEl.style.color = 'var(--color-primary)';
             
-            // Reset buttons
+            // Reset buttons to default appearance
             choiceButtons.forEach(btn => {
-                btn.className = 'choice-button';
+                btn.className = 'choice-button'; // Reset all classes
                 btn.disabled = isAutoPlay; 
-                btn.style.display = 'block';
-                btn.style.height = 'auto';
-                btn.style.padding = '1.5rem';
-                btn.style.margin = '0';
             });
             
             updateStatusBar();
@@ -1106,20 +1102,18 @@
                 targetForm = 'V2';
                 currentPrompt = q.v1;
                 correctAnswer = q.v2;
-                // For V2, we use the V3 of the current verb as a decoy if it is different, otherwise use the provided decoy
                 decoyAnswer = q.v3.split('/')[0].trim().toLowerCase() !== q.v2.split('/')[0].trim().toLowerCase() ? q.v3 : q.decoy; 
                 stepIndicatorEl.textContent = `โจทย์ V1: ${currentPrompt} | คำตอบ ${targetForm}`;
             } else if (currentAnswerStep === 'V3') {
                 targetForm = 'V3';
-                currentPrompt = q.v2;
+                currentPrompt = q.v2; // Prompt is now V2
                 correctAnswer = q.v3;
-                // For V3, we use a random V3 decoy
                 decoyAnswer = getV3Decoy(correctAnswer, currentLevelData.questions); 
                 stepIndicatorEl.textContent = `โจทย์ V2: ${currentPrompt} | คำตอบ ${targetForm}`;
                 thaiPromptEl.textContent = currentPrompt; // Set prompt to V2
             }
 
-            // Speak the V1/V2 prompt immediately (English) - Only for V2 step as V3 is a continuation
+            // Speak the V1/V2 prompt immediately (English)
             if (currentAnswerStep === 'V2') {
                 window.speechSynthesis.cancel();
                 speakWithSlash(promptText, 'en-US', SLASH_SPEECH_DELAY_MS); 
@@ -1137,14 +1131,10 @@
             choiceB.setAttribute('data-correct', choices[1] === correctAnswer);
             choiceB.title = targetForm;
             
-            // Re-enable buttons if not in auto-play mode
+            // Reset button styles to default for current step
             choiceButtons.forEach(btn => {
-                btn.disabled = isAutoPlay;
-                btn.classList.remove('hidden-on-reveal'); // Ensure buttons are visible
-                btn.style.display = 'block';
-                btn.style.height = 'auto';
-                btn.style.padding = '1.5rem';
-                btn.style.margin = '0';
+                btn.className = 'choice-button'; // Reset classes
+                btn.disabled = isAutoPlay; 
             });
 
             startTimer();
@@ -1154,7 +1144,6 @@
             const durationMs = isAutoPlay ? AUTO_PLAY_TIMER_MS : NORMAL_TIMER_MS;
             const durationSec = durationMs / 1000;
 
-            // Update timer bar transition time dynamically
             timerBarEl.style.transition = 'none';
             timerBarEl.style.width = '100%';
             
@@ -1165,16 +1154,9 @@
                 timerBarEl.style.width = '0%';
             }, 50);
 
-            // Set timeout action
             timerTimeout = setTimeout(() => {
                 if (!isAnswered) {
-                    if (isAutoPlay) {
-                        // In AutoPlay, a timeout is treated as a correct answer to advance the step
-                        checkAnswer(null, true); 
-                    } else {
-                        // In Normal mode, a timeout is an incorrect answer
-                        checkAnswer(null, false); 
-                    }
+                    checkAnswer(null, isAutoPlay); 
                 }
             }, durationMs);
         }
@@ -1194,79 +1176,82 @@
             if (currentAnswerStep === 'V2') {
                 if (isCorrect) {
                     playPing();
-                    isAnswered = false; // The V2 step is finished, but not the whole question
+                    isAnswered = false; // V2 step is finished, but not the whole question
                     
-                    // Highlight the correct V2 button
+                    // Highlight the correct V2 button, dim the other
                     choiceButtons.forEach(btn => {
-                        btn.disabled = true;
-                        if (btn.textContent.includes(currentQ.v2.split('/')[0].trim())) { // Check for the correct word
-                             btn.classList.add('correct');
+                        btn.disabled = true; // Disable until V3 is ready
+                        if (btn.textContent.includes(currentQ.v2.split('/')[0].trim())) { 
+                             btn.classList.add('correct'); // Highlight and enlarge
+                             btn.classList.remove('dimmed');
                         } else {
-                            // Hide the incorrect V2 option
-                             btn.classList.add('hidden-on-reveal');
+                             btn.classList.add('dimmed'); // Dim the incorrect V2 option
+                             btn.classList.remove('correct');
                         }
                     });
                     
-                    // Transition to V3 Step
-                    currentAnswerStep = 'V3';
-                    if (isAutoPlay) {
-                         // Wait a moment then automatically start V3 step
-                         autoPlayTimeout = setTimeout(() => {
-                             setupQuestion(currentQ);
-                         }, 1000); // 1 second delay
-                    } else {
-                         // Immediately start V3 step
-                         thaiPromptEl.textContent = `✅ ถูก V2! ตอนนี้เลือก V3 ของ: ${currentQ.v2}`;
-                         thaiPromptEl.style.fontSize = '1.5rem';
-                         thaiPromptEl.style.color = 'var(--color-correct)';
-                         setTimeout(() => {
-                            setupQuestion(currentQ);
-                         }, 500); 
-                    }
-                    return; // Exit as the question is not fully answered
-                } 
-                // If incorrect (V2) or Auto-Play is true (meaning V2 is correct by default), proceed to final revelation
-                // NOTE: If isAuto is true here, it means the timer ran out on V2, but in Autoplay we treat it as correct.
-            }
-            
-            // 2. Logic for V3 Step or V2 Incorrect (Final Answer)
-            
-            // Only update score if V3 is correct OR V2 was incorrect
-            if (currentAnswerStep === 'V3' && isCorrect) {
-                 score++;
-            } else if (currentAnswerStep === 'V2' && !isCorrect) {
-                 // V2 incorrect: No score update, but proceed to reveal
-            } else if (currentAnswerStep === 'V3' && !isCorrect) {
-                // V3 incorrect: No score update
-            }
-            
-            // Mark the question as fully answered
-            isAnswered = true; 
-            currentAnswerStep = 'REVEAL';
+                    thaiPromptEl.textContent = `✅ ถูก V2! ตอนนี้เลือก V3 ของ: ${currentQ.v2}`;
+                    thaiPromptEl.style.fontSize = '1.5rem';
+                    thaiPromptEl.style.color = 'var(--color-correct)';
 
-            // Play tone
-            window.speechSynthesis.cancel();
-            if (isCorrect || (isAuto && currentAnswerStep === 'V2')) {
-                playPing();
-            } else {
-                playFailTone();
+                    currentAnswerStep = 'V3';
+                    autoPlayTimeout = setTimeout(() => {
+                         setupQuestion(currentQ); // Start V3 step
+                    }, isAutoPlay ? 1000 : 1500); // Shorter delay for auto, longer for normal
+                    
+                    return; // Exit as the question is not fully answered
+                } else {
+                    // V2 incorrect - treat as final incorrect answer for the whole question
+                    playFailTone();
+                    isAnswered = true; 
+                    currentAnswerStep = 'REVEAL'; // Go directly to full reveal
+                    choiceButtons.forEach(btn => btn.disabled = true);
+                    nextBtn.disabled = false;
+                    
+                    if (selectedBtn) selectedBtn.classList.add('wrong');
+                    
+                    revealAnswer(currentQ, selectedBtn, isCorrect, isAuto, () => {
+                        currentQuizIndex++;
+                        nextQuestion();
+                    });
+                    return; 
+                }
             }
             
-            // Disable all choices
-            choiceButtons.forEach(btn => btn.disabled = true);
-            
-            // Set Next Button action
-            nextBtn.disabled = false;
-            
-            // Define the final action (advance game)
-            const speechEndAction = () => {
-                // Advance the game, this is the end of the entire question
-                currentQuizIndex++;
-                nextQuestion();
-            };
-            
-            // 3. Reveal and speak
-            revealAnswer(currentQ, selectedBtn, isCorrect, isAuto, speechEndAction);
+            // 2. Logic for V3 Step
+            if (currentAnswerStep === 'V3') {
+                if (isCorrect) {
+                    score++;
+                    playPing();
+                } else {
+                    playFailTone();
+                }
+
+                isAnswered = true; 
+                currentAnswerStep = 'REVEAL';
+                choiceButtons.forEach(btn => btn.disabled = true);
+                nextBtn.disabled = false;
+
+                // Highlight buttons based on final V3 answer
+                choiceButtons.forEach(btn => {
+                    if (btn.textContent.includes(currentQ.v3.split('/')[0].trim())) { 
+                        btn.classList.add('correct');
+                        btn.classList.remove('dimmed');
+                    } else if (selectedBtn === btn && !isCorrect) {
+                        btn.classList.add('wrong');
+                        btn.classList.remove('dimmed');
+                    } else {
+                        btn.classList.add('dimmed');
+                        btn.classList.remove('correct', 'wrong');
+                    }
+                });
+
+                revealAnswer(currentQ, selectedBtn, isCorrect, isAuto, () => {
+                    currentQuizIndex++;
+                    nextQuestion();
+                });
+                return;
+            }
         }
 
         // Modified to display all three forms and handle sequential speech
@@ -1274,27 +1259,32 @@
             const statusPrefix = isCorrect ? '✅ ถูกต้อง: ' : (selectedBtn ? '❌ ผิด: ' : '⏰ หมดเวลา: ');
             const fullRevealText = `${q.thai}`;
             
-            // Display full verb forms and Thai meaning
             thaiPromptEl.textContent = statusPrefix + fullRevealText;
             thaiPromptEl.style.fontSize = '1.5rem';
             thaiPromptEl.style.color = isCorrect ? 'var(--color-correct)' : 'var(--color-wrong)';
             
             stepIndicatorEl.textContent = `V1: ${q.v1} | V2: ${q.v2} | V3: ${q.v3}`;
 
-            // Highlight buttons
+            // Reset all choice buttons to default, then highlight correct ones
             choiceButtons.forEach(btn => {
-                btn.classList.remove('wrong', 'correct', 'hidden-on-reveal');
-                
-                // Show V2 and V3 in the prompt area on the buttons for clarity during reveal
-                if (btn.textContent.includes(q.v2.split('/')[0].trim()) || btn.textContent.includes(q.v3.split('/')[0].trim())) {
-                    btn.classList.add('correct');
-                    btn.style.display = 'block';
-                } else {
-                    btn.classList.add('hidden-on-reveal');
-                }
+                btn.className = 'choice-button'; // Reset all classes
+                btn.disabled = true; // Keep disabled after reveal
             });
             
-            // Sequential speech: V1 -> V2 -> V3 -> Thai (with slash handling)
+            // Highlight V2 and V3 as correct
+            choiceButtons.forEach(btn => {
+                const buttonText = btn.textContent.split('/')[0].trim().toLowerCase();
+                const v2Norm = q.v2.split('/')[0].trim().toLowerCase();
+                const v3Norm = q.v3.split('/')[0].trim().toLowerCase();
+
+                if (buttonText === v2Norm || buttonText === v3Norm) {
+                    btn.classList.add('correct');
+                    btn.classList.remove('dimmed');
+                } else {
+                    btn.classList.add('dimmed');
+                }
+            });
+
             handleFinalRevealSpeech(q.v1, q.v2, q.v3, q.thai, onSpeechEnd);
             
             updateStatusBar();
@@ -1302,7 +1292,6 @@
 
 
         function endGame() {
-            // Ensure AutoPlay is stopped at the end of the game
             isAutoPlay = false;
             clearTimeout(autoPlayTimeout);
             
@@ -1312,7 +1301,6 @@
             thaiPromptEl.textContent = `คุณทำได้ ${score}/${currentLevelData.questions.length} ข้อ`;
             thaiPromptEl.style.fontSize = '2.5rem';
             thaiPromptEl.style.color = score >= (currentLevelData.questions.length * 0.8) ? 'var(--color-correct)' : 'var(--color-wrong)';
-            thaiPromptEl.classList.add('revealed-text'); 
             stepIndicatorEl.textContent = 'ผลสรุป';
 
             choiceButtons.forEach(btn => btn.style.display = 'none');
