@@ -8,8 +8,10 @@
     <style>
         /* Global & Default (Level 1-10) Theme */
         :root {
+            /* แก้ไขตามคำขอ: สีตัวอักษรของโจทย์ (V1 Prompt) ให้สดและเข้มขึ้น */
             --color-primary: #E64C3C; /* Vibrant Red/Primary - (โจทย์ V1/V2, เข้มขึ้นและสดขึ้น) */
             --color-secondary: #FBCEB1; /* Peach (พื้นหลัง Prompt, ปุ่มตัวเลือกปกติ) */
+            /* แก้ไขตามคำขอ: สีเฉลยที่ถูกต้อง ให้เข้มและสดขึ้น */
             --color-correct: #27AE60; /* Emerald Green - (คำตอบถูก, เข้มขึ้นและสดขึ้น) */
             --color-wrong: #43B3AE; /* เขียวเทอร์ควอยซ์ (คำตอบผิด/ปุ่ม Auto) */
             --color-bg: #F7F9FC; /* พื้นหลังอ่อน */
@@ -455,81 +457,99 @@
 
     <script>
         // --- DATA (20 Sets x 10 Questions = 200 verbs) ---
-        // **Data Filtering for V1 != V2 or V2 != V3 has been performed.**
+        // **ปรับปรุงการจัดชุดคำศัพท์ 1-6 ให้เป็นไปตามลำดับอักษร V1 (ตามคำขอ)**
         const allQuizData = [
-            { id: 1, title: "ชุด A-C พื้นฐาน", questions: [
+            // ชุด 1: A-C (Alphabetical V1)
+            { id: 1, title: "ชุด A-C (be, begin, buy...)", questions: [
                 { thai: "เป็น/อยู่/คือ", v1: "be", v2: "was/were", v3: "been", decoy: "become" },
                 { thai: "เริ่ม", v1: "begin", v2: "began", v3: "begun", decoy: "come" },
-                { thai: "ซื้อ", v1: "buy", v2: "bought", v3: "bought", decoy: "catch" },
-                { thai: "มา", v1: "come", v2: "came", v3: "come", decoy: "do" },
-                { thai: "จับ", v1: "catch", v2: "caught", v3: "caught", decoy: "choose" },
-                { thai: "ทำ", v1: "do", v2: "did", v3: "done", decoy: "drink" },
-                { thai: "ขับ", v1: "drive", v2: "drove", v3: "driven", decoy: "eat" },
-                { thai: "ดื่ม", v1: "drink", v2: "drank", v3: "drunk", decoy: "fall" },
-                { thai: "กิน", v1: "eat", v2: "ate", v3: "eaten", decoy: "feel" },
-                { thai: "บิน", v1: "fly", v2: "flew", v3: "flown", decoy: "find" },
-            ]},
-            { id: 2, title: "ชุด F-H", questions: [
-                { thai: "ให้", v1: "give", v2: "gave", v3: "given", decoy: "go" },
-                { thai: "ไป", v1: "go", v2: "went", v3: "gone", decoy: "have" },
-                { thai: "ได้ยิน", v1: "hear", v2: "heard", v3: "heard", decoy: "hold" },
-                { thai: "เก็บ/รักษา", v1: "keep", v2: "kept", v3: "kept", decoy: "know" },
-                { thai: "รู้", v1: "know", v2: "knew", v3: "known", decoy: "leave" },
-                { thai: "เรียนรู้", v1: "learn", v2: "learned/learnt", v3: "learned/learnt", decoy: "lose" },
-                { thai: "ทำ/สร้าง", v1: "make", v2: "made", v3: "made", decoy: "meet" },
-                { thai: "พบ", v1: "meet", v2: "met", v3: "met", decoy: "pay" },
-                { thai: "จ่าย", v1: "pay", v2: "paid", v3: "paid", decoy: "put" },
-                { thai: "วิ่ง", v1: "run", v2: "ran", v3: "run", decoy: "say" },
-            ]},
-            { id: 3, title: "ชุด R-W พื้นฐาน", questions: [
-                { thai: "อ่าน", v1: "read", v2: "read", v3: "read", decoy: "run" },
-                { thai: "พูด/กล่าว", v1: "say", v2: "said", v3: "said", decoy: "see" },
-                { thai: "เห็น", v1: "see", v2: "saw", v3: "seen", decoy: "send" },
-                { thai: "ส่ง", v1: "send", v2: "sent", v3: "sent", decoy: "sing" },
-                { thai: "นั่ง", v1: "sit", v2: "sat", v3: "sat", decoy: "sleep" },
-                { thai: "นอน", v1: "sleep", v2: "slept", v3: "slept", decoy: "speak" },
-                { thai: "พูด", v1: "speak", v2: "spoke", v3: "spoken", decoy: "stand" },
-                { thai: "ยืน", v1: "stand", v2: "stood", v3: "stood", decoy: "swim" },
-                { thai: "เอา/พาไป", v1: "take", v2: "took", v3: "taken", decoy: "teach" },
-                { thai: "เขียน", v1: "write", v2: "wrote", v3: "written", decoy: "win" },
-            ]},
-            { id: 4, title: "คำกริยาที่เปลี่ยนทั้งหมด", questions: [
                 { thai: "หัก/ทำลาย", v1: "break", v2: "broke", v3: "broken", decoy: "bring" },
                 { thai: "นำมา", v1: "bring", v2: "brought", v3: "brought", decoy: "build" },
-                { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "choose" },
-                { thai: "เลือก", v1: "choose", v2: "chose", v3: "chosen", decoy: "draw" },
-                { thai: "วาด", v1: "draw", v2: "drew", v3: "drawn", decoy: "find" },
-                { thai: "ลืม", v1: "forget", v2: "forgot", v3: "forgotten", decoy: "get" },
-                { thai: "ได้", v1: "get", v2: "got", v3: "got/gotten", decoy: "grow" },
-                { thai: "โต/ปลูก", v1: "grow", v2: "grew", v3: "grown", decoy: "lie" },
-                { thai: "ขี่", v1: "ride", v2: "rode", v3: "ridden", decoy: "ring" },
-                { thai: "เห็น/แสดง", v1: "show", v2: "showed", v3: "shown/showed", decoy: "sing" },
-            ]},
-            // Set 5 (V1=V2=V3: cut, cost, hit, hurt, let, put, shut, spread, quit, set) **REMOVED**
-            { id: 6, title: "ชุด V2/V3 เหมือนกัน 1", questions: [
-                { thai: "ฝัน", v1: "dream", v2: "dreamed/dreamt", v3: "dreamed/dreamt", decoy: "feel" },
-                { thai: "รู้สึก", v1: "feel", v2: "felt", v3: "felt", decoy: "fight" },
-                { thai: "ต่อสู้", v1: "fight", v2: "fought", v3: "fought", decoy: "find" },
-                { thai: "พบ", v1: "find", v2: "found", v3: "found", decoy: "get" },
-                { thai: "แขวน", v1: "hang", v2: "hung", v3: "hung", decoy: "have" },
-                { thai: "ทำ/สร้าง", v1: "make", v2: "made", v3: "made", decoy: "mean" },
-                { thai: "หมายถึง", v1: "mean", v2: "meant", v3: "meant", decoy: "sell" },
-                { thai: "ขาย", v1: "sell", v2: "sold", v3: "sold", decoy: "send" },
-                { thai: "ยิง", v1: "shoot", v2: "shot", v3: "shot", decoy: "sleep" },
-                { thai: "สอน", v1: "teach", v2: "taught", v3: "taught", decoy: "think" },
-            ]},
-            { id: 7, title: "ชุด V2/V3 เหมือนกัน 2", questions: [
-                { thai: "บอก", v1: "tell", v2: "told", v3: "told", decoy: "think" },
-                { thai: "คิด", v1: "think", v2: "thought", v3: "thought", decoy: "understand" },
-                { thai: "ชนะ", v1: "win", v2: "won", v3: "won", decoy: "write" },
-                { thai: "เข้าใจ", v1: "understand", v2: "understood", v3: "understood", decoy: "wear" },
-                { thai: "สวมใส่", v1: "wear", v2: "wore", v3: "worn", decoy: "lend" },
-                { thai: "แพ้/หาย", v1: "lose", v2: "lost", v3: "lost", decoy: "light" },
-                { thai: "จุดไฟ/ส่อง", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "sit" },
-                { thai: "ขุด", v1: "dig", v2: "dug", v3: "dug", decoy: "stand" },
-                { thai: "ติด/ยึด", v1: "stick", v2: "stuck", v3: "stuck", decoy: "strike" },
+                { thai: "สร้าง", v1: "build", v2: "built", v3: "built", decoy: "buy" },
+                { thai: "ซื้อ", v1: "buy", v2: "bought", v3: "bought", decoy: "catch" },
+                { thai: "จับ", v1: "catch", v2: "caught", v3: "caught", decoy: "choose" },
+                { thai: "เลือก", v1: "choose", v2: "chose", v3: "chosen", decoy: "come" },
+                { thai: "มา", v1: "come", v2: "came", v3: "come", decoy: "do" },
                 { thai: "คืบคลาน", v1: "creep", v2: "crept", v3: "crept", decoy: "keep" },
             ]},
+            // ชุด 2: D-F (Alphabetical V1)
+            { id: 2, title: "ชุด D-F (do, drive, eat...)", questions: [
+                { thai: "ขุด", v1: "dig", v2: "dug", v3: "dug", decoy: "drink" },
+                { thai: "ทำ", v1: "do", v2: "did", v3: "done", decoy: "drink" },
+                { thai: "วาด/ดึง", v1: "draw", v2: "drew", v3: "drawn", decoy: "drive" },
+                { thai: "ดื่ม", v1: "drink", v2: "drank", v3: "drunk", decoy: "eat" },
+                { thai: "ขับ", v1: "drive", v2: "drove", v3: "driven", decoy: "eat" },
+                { thai: "กิน", v1: "eat", v2: "ate", v3: "eaten", decoy: "fall" },
+                { thai: "ตก/ล้ม", v1: "fall", v2: "fell", v3: "fallen", decoy: "feel" },
+                { thai: "ต่อสู้", v1: "fight", v2: "fought", v3: "fought", decoy: "find" },
+                { thai: "พบ", v1: "find", v2: "found", v3: "found", decoy: "fly" },
+                { thai: "บิน", v1: "fly", v2: "flew", v3: "flown", decoy: "forget" },
+            ]},
+            // ชุด 3: G-H (Alphabetical V1)
+            { id: 3, title: "ชุด G-H (get, give, go, have...)", questions: [
+                { thai: "ลืม", v1: "forget", v2: "forgot", v3: "forgotten", decoy: "get" }, // F word to complete set
+                { thai: "ได้", v1: "get", v2: "got", v3: "got/gotten", decoy: "give" },
+                { thai: "ให้", v1: "give", v2: "gave", v3: "given", decoy: "go" },
+                { thai: "ไป", v1: "go", v2: "went", v3: "gone", decoy: "have" },
+                { thai: "โต/ปลูก", v1: "grow", v2: "grew", v3: "grown", decoy: "have" },
+                { thai: "แขวน", v1: "hang", v2: "hung", v3: "hung", decoy: "have" },
+                { thai: "มี", v1: "have", v2: "had", v3: "had", decoy: "hear" },
+                { thai: "ได้ยิน", v1: "hear", v2: "heard", v3: "heard", decoy: "hold" },
+                { thai: "ซ่อน", v1: "hide", v2: "hid", v3: "hidden", decoy: "hold" },
+                { thai: "ยึด/ถือ", v1: "hold", v2: "held", v3: "held", decoy: "hide" },
+            ]},
+            // ชุด 4: K-L (Alphabetical V1)
+            { id: 4, title: "ชุด K-L (keep, know, learn, leave...)", questions: [
+                { thai: "เก็บ/รักษา", v1: "keep", v2: "kept", v3: "kept", decoy: "know" },
+                { thai: "รู้", v1: "know", v2: "knew", v3: "known", decoy: "leave" },
+                { thai: "วางไข่/ซ่อน", v1: "lay", v2: "laid", v3: "laid", decoy: "lie" },
+                { thai: "นำทาง", v1: "lead", v2: "led", v3: "led", decoy: "read" },
+                { thai: "เรียนรู้", v1: "learn", v2: "learned/learnt", v3: "learned/learnt", decoy: "leave" },
+                { thai: "ออก/จาก", v1: "leave", v2: "left", v3: "left", decoy: "lose" },
+                { thai: "ให้ยืม", v1: "lend", v2: "lent", v3: "lent", decoy: "send" },
+                { thai: "โกหก/นอนราบ", v1: "lie", v2: "lay", v3: "lain", decoy: "lay" },
+                { thai: "จุดไฟ/ส่อง", v1: "light", v1: "light", v2: "lit/lighted", v3: "lit/lighted", decoy: "lose" },
+                { thai: "แพ้/หาย", v1: "lose", v2: "lost", v3: "lost", decoy: "light" },
+            ]},
+            // ชุด 5: M-R (Alphabetical V1)
+            { id: 5, title: "ชุด M-R (make, meet, pay, run...)", questions: [
+                { thai: "ทำ/สร้าง", v1: "make", v2: "made", v3: "made", decoy: "meet" },
+                { thai: "พบ", v1: "meet", v2: "met", v3: "met", decoy: "pay" },
+                { thai: "หมายถึง", v1: "mean", v2: "meant", v3: "meant", decoy: "meet" },
+                { thai: "จ่าย", v1: "pay", v2: "paid", v3: "paid", decoy: "put" },
+                { thai: "วาง/ใส่", v1: "put", v2: "put", v3: "put", decoy: "read" },
+                { thai: "อ่าน", v1: "read", v2: "read", v3: "read", decoy: "run" },
+                { thai: "ขี่", v1: "ride", v2: "rode", v3: "ridden", decoy: "ring" },
+                { thai: "กระดิ่ง", v1: "ring", v2: "rang", v3: "rung", decoy: "rise" },
+                { thai: "ยก/ลุกขึ้น", v1: "rise", v2: "rose", v3: "risen", decoy: "run" },
+                { thai: "วิ่ง", v1: "run", v2: "ran", v3: "run", decoy: "say" },
+            ]},
+            // ชุด 6: S-W (Alphabetical V1)
+            { id: 6, title: "ชุด S-W (say, see, send, take, write...)", questions: [
+                { thai: "พูด/กล่าว", v1: "say", v2: "said", v3: "said", decoy: "see" },
+                { thai: "เห็น", v1: "see", v2: "saw", v3: "seen", decoy: "send" },
+                { thai: "ขาย", v1: "sell", v2: "sold", v3: "sold", decoy: "tell" },
+                { thai: "ส่ง", v1: "send", v2: "sent", v3: "sent", decoy: "sing" },
+                { thai: "ตั้ง/กำหนด", v1: "set", v2: "set", v3: "set", decoy: "sit" },
+                { thai: "ยิง", v1: "shoot", v2: "shot", v3: "shot", decoy: "sleep" },
+                { thai: "ร้องเพลง", v1: "sing", v2: "sang", v3: "sung", decoy: "sink" },
+                { thai: "จม", v1: "sink", v2: "sank", v3: "sunk", decoy: "sit" },
+                { thai: "นั่ง", v1: "sit", v2: "sat", v3: "sat", decoy: "sleep" },
+                { thai: "นอน", v1: "sleep", v2: "slept", v3: "slept", decoy: "speak" },
+            ]},
+            { id: 7, title: "ชุด S-W (speak, stand, swim...)", questions: [
+                { thai: "พูด", v1: "speak", v2: "spoke", v3: "spoken", decoy: "stand" },
+                { thai: "ยืน", v1: "stand", v2: "stood", v3: "stood", decoy: "swim" },
+                { thai: "ว่ายน้ำ", v1: "swim", v2: "swam", v3: "swum", decoy: "take" },
+                { thai: "เอา/พาไป", v1: "take", v2: "took", v3: "taken", decoy: "teach" },
+                { thai: "สอน", v1: "teach", v2: "taught", v3: "taught", decoy: "think" },
+                { thai: "บอก", v1: "tell", v2: "told", v3: "told", decoy: "think" },
+                { thai: "คิด", v1: "think", v2: "thought", v3: "thought", decoy: "understand" },
+                { thai: "เข้าใจ", v1: "understand", v2: "understood", v3: "understood", decoy: "wear" },
+                { thai: "สวมใส่", v1: "wear", v2: "wore", v3: "worn", decoy: "win" },
+                { thai: "เขียน", v1: "write", v2: "wrote", v3: "written", decoy: "win" },
+            ]},
+            // ชุด 8-20 เป็นชุดรวม/ยากที่คงไว้ตามเดิม (มีการปรับ ID และชื่อชุดให้ต่อเนื่อง)
             { id: 8, title: "คำกริยาที่คล้ายกัน", questions: [
                 { thai: "กลายเป็น", v1: "become", v2: "became", v3: "become", decoy: "begin" },
                 { thai: "วิ่ง", v1: "run", v2: "ran", v3: "run", decoy: "ring" },
@@ -1104,6 +1124,11 @@
                 correctAnswer = q.v2;
                 decoyAnswer = q.v3.split('/')[0].trim().toLowerCase() !== q.v2.split('/')[0].trim().toLowerCase() ? q.v3 : q.decoy; 
                 stepIndicatorEl.textContent = `โจทย์ V1: ${currentPrompt} | คำตอบ ${targetForm}`;
+                
+                // Speak the V1 prompt immediately (English) - พูด V1 ครั้งเดียวเมื่อเริ่มข้อ
+                window.speechSynthesis.cancel();
+                speakWithSlash(promptText, 'en-US', SLASH_SPEECH_DELAY_MS); 
+
             } else if (currentAnswerStep === 'V3') {
                 targetForm = 'V3';
                 currentPrompt = q.v2; // Prompt is now V2
@@ -1111,12 +1136,7 @@
                 decoyAnswer = getV3Decoy(correctAnswer, currentLevelData.questions); 
                 stepIndicatorEl.textContent = `โจทย์ V2: ${currentPrompt} | คำตอบ ${targetForm}`;
                 thaiPromptEl.textContent = currentPrompt; // Set prompt to V2
-            }
-
-            // Speak the V1/V2 prompt immediately (English)
-            if (currentAnswerStep === 'V2') {
-                window.speechSynthesis.cancel();
-                speakWithSlash(promptText, 'en-US', SLASH_SPEECH_DELAY_MS); 
+                // **ไม่พูดซ้ำใน V3 step**
             }
 
             // Prepare choices
@@ -1195,9 +1215,13 @@
                     thaiPromptEl.style.color = 'var(--color-correct)';
 
                     currentAnswerStep = 'V3';
-                    autoPlayTimeout = setTimeout(() => {
-                         setupQuestion(currentQ); // Start V3 step
-                    }, isAutoPlay ? 1000 : 1500); // Shorter delay for auto, longer for normal
+                    
+                    // NEW SPEECH LOGIC: Speak V2 once, then transition to V3 prompt
+                    speakWithSlash(currentQ.v2, 'en-US', SLASH_SPEECH_DELAY_MS, () => {
+                         autoPlayTimeout = setTimeout(() => {
+                             setupQuestion(currentQ); // Start V3 step
+                         }, isAutoPlay ? 500 : 750); // Shorter delay after V2 speech ends
+                    });
                     
                     return; // Exit as the question is not fully answered
                 } else {
@@ -1246,6 +1270,7 @@
                     }
                 });
 
+                // Final Reveal Speech: V1, V2, V3, Thai
                 revealAnswer(currentQ, selectedBtn, isCorrect, isAuto, () => {
                     currentQuizIndex++;
                     nextQuestion();
@@ -1285,6 +1310,7 @@
                 }
             });
 
+            // Final Reveal Speech: V1, V2, V3, Thai
             handleFinalRevealSpeech(q.v1, q.v2, q.v3, q.thai, onSpeechEnd);
             
             updateStatusBar();
